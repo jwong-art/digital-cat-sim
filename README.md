@@ -49,7 +49,7 @@ cd digital-cat-sim
 
 ```nginx
 server {
-    listen 80;
+    listen PORT;
     server_name your-domain.com;
     root /path/to/digital-cat-sim;
     index index.html;
@@ -88,7 +88,7 @@ chown -R www-data:www-data data
 
 Open your browser and navigate to:
 ```
-http://your-server-ip:81/
+http://your-server-ip:PORT/
 ```
 
 ## Game Features
