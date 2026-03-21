@@ -10,7 +10,7 @@ Digital Cat Sim is a web-based virtual pet game where you can take care of your 
 
 **Architecture designed by:** jwong-art
 
-**AI-Assisted Development:** A portion of the code was generated using AI assistance (Kimi K2.5), with human review and extensive bug fixing to ensure quality.
+**AI-Assisted Development:** A portion of the code was generated using AI, with human review and extensive bug fixing to ensure quality.
 
 ## Requirements
 
