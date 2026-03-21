@@ -132,7 +132,7 @@ digital-cat-sim/
 ├── api.php        # Backend API endpoints
 ├── daemon.php     # Background daemon for stat decay
 ├── database.php   # SQLite database management
-├── clothes.js     # Clothing/dressing logic
+├── clothes.js    # Clothing/dressing logic
 ├── data/          # SQLite database and logs
 │   └── cat_game.db
 └── README.md
