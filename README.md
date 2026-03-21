@@ -6,6 +6,10 @@ A virtual pet cat game built with HTML5, PHP, and SQLite.
 
 Digital Cat Sim is a web-based virtual pet game where you can take care of your cat. Feed it, bathe it, play with it, and watch it grow. The game features various stats (hunger, thirst, sleep, happiness, cleanliness), a shop system, wardrobe, furniture, investments, and skill learning.
 
+## Development
+
+This project was developed with AI assistance during the development process.
+
 ## Requirements
 
 ### Server Requirements
@@ -132,7 +136,7 @@ digital-cat-sim/
 ├── api.php        # Backend API endpoints
 ├── daemon.php     # Background daemon for stat decay
 ├── database.php   # SQLite database management
-├── clothes.js    # Clothing/dressing logic
+├── clothes.js     # Clothing/dressing logic
 ├── data/          # SQLite database and logs
 │   └── cat_game.db
 └── README.md
