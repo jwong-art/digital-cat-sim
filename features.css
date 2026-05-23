@@ -1,0 +1,851 @@
+/* ==================== 成就系统 ==================== */
+.achievement-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 300;
+    justify-content: center;
+    align-items: center;
+}
+
+.achievement-modal.show {
+    display: flex;
+}
+
+.achievement-content {
+    background: linear-gradient(135deg, #2d1b69 0%, #11998e 100%);
+    border-radius: 20px;
+    padding: 20px;
+    width: 90%;
+    max-width: 400px;
+    max-height: 80vh;
+    overflow-y: auto;
+    color: #fff;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.achievement-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.achievement-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.achievement-close {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.achievement-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.achievement-stats {
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.achievement-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s;
+}
+
+.achievement-item.unlocked {
+    background: rgba(255, 215, 0, 0.2);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.achievement-item.locked {
+    opacity: 0.5;
+}
+
+.achievement-icon {
+    font-size: 28px;
+    margin-right: 12px;
+    min-width: 36px;
+    text-align: center;
+}
+
+.achievement-info {
+    flex: 1;
+}
+
+.achievement-name {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.achievement-desc {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+.achievement-status {
+    font-size: 12px;
+    min-width: 50px;
+    text-align: right;
+}
+
+/* 成就解锁通知 */
+.achievement-notification {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100px);
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    color: #333;
+    padding: 12px 24px;
+    border-radius: 16px;
+    font-weight: bold;
+    font-size: 14px;
+    z-index: 400;
+    box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4);
+    transition: transform 0.5s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.achievement-notification.show {
+    transform: translateX(-50%) translateY(0);
+}
+
+/* ==================== 随机事件弹窗 ==================== */
+.event-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+    background: rgba(0, 0, 0, 0.85);
+    border-radius: 20px;
+    padding: 24px;
+    width: 85%;
+    max-width: 320px;
+    z-index: 350;
+    color: #fff;
+    text-align: center;
+    opacity: 0;
+    transition: all 0.4s ease;
+}
+
+.event-popup.show {
+    display: block;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.event-popup.good {
+    border: 2px solid #4CAF50;
+    box-shadow: 0 0 30px rgba(76, 175, 80, 0.3);
+}
+
+.event-popup.bad {
+    border: 2px solid #f44336;
+    box-shadow: 0 0 30px rgba(244, 67, 54, 0.3);
+}
+
+.event-popup.neutral {
+    border: 2px solid #FF9800;
+    box-shadow: 0 0 30px rgba(255, 152, 0, 0.3);
+}
+
+.event-icon {
+    font-size: 48px;
+    margin-bottom: 10px;
+    animation: eventBounce 0.6s ease;
+}
+
+@keyframes eventBounce {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+.event-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.event-desc {
+    font-size: 14px;
+    opacity: 0.9;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.event-effects {
+    font-size: 12px;
+    opacity: 0.8;
+    margin-bottom: 12px;
+}
+
+.event-effects span {
+    display: inline-block;
+    padding: 2px 8px;
+    margin: 2px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.event-effects .positive { color: #4CAF50; }
+.event-effects .negative { color: #f44336; }
+
+.event-close-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: #fff;
+    padding: 8px 24px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.event-close-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* ==================== 房间切换 ==================== */
+.room-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    padding: 8px 10px;
+    background: rgba(0, 0, 0, 0.3);
+    overflow-x: auto;
+    z-index: 100;
+}
+
+.room-tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 11px;
+    min-width: 50px;
+}
+
+.room-tab:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.room-tab.active {
+    background: rgba(255, 255, 255, 0.3);
+    color: #fff;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.room-tab-icon {
+    font-size: 20px;
+    margin-bottom: 2px;
+}
+
+.room-tab-name {
+    font-size: 10px;
+}
+
+/* ==================== 房间背景 ==================== */
+.room-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transition: background 0.8s ease;
+}
+
+/* 客厅 - 温馨的客厅 */
+.room-living {
+    background:
+        radial-gradient(circle at 18% 18%, rgba(255,255,255,0.38) 0 6%, transparent 16%),
+        linear-gradient(180deg, #8FD0EE 0%, #BFE7F2 34%, #F7E8C5 34%, #F4DCAF 50%, #C98A4A 50%, #A96B32 100%);
+}
+
+/* 卧室 - 暖色调的卧室 */
+.room-bedroom {
+    background:
+        radial-gradient(circle at 78% 16%, rgba(255, 236, 179, 0.24) 0 8%, transparent 22%),
+        linear-gradient(180deg, #263852 0%, #334B6D 32%, #6B4A55 32%, #6B4A55 50%, #6D4C41 50%, #4E342E 100%);
+}
+
+/* 浴室 - 清爽的浴室 */
+.room-bathroom {
+    background:
+        radial-gradient(circle at 22% 18%, rgba(255,255,255,0.32) 0 7%, transparent 20%),
+        linear-gradient(180deg, #B3E5FC 0%, #E1F5FE 36%, #E0F7FA 36%, #E0F7FA 50%, #B2DFDB 50%, #80CBC4 100%);
+}
+
+/* 花园 - 阳光花园 */
+.room-garden {
+    background:
+        radial-gradient(circle at 82% 12%, rgba(255, 235, 59, 0.62) 0 6%, transparent 18%),
+        radial-gradient(ellipse at 28% 64%, rgba(129, 199, 132, 0.42) 0 18%, transparent 38%),
+        linear-gradient(180deg, #81D4FA 0%, #B3E5FC 32%, #C8E6C9 32%, #A5D6A7 48%, #66BB6A 48%, #2E7D32 100%);
+}
+
+/* 厨房 - 温暖的厨房 */
+.room-kitchen {
+    background:
+        radial-gradient(circle at 18% 16%, rgba(255,255,255,0.34) 0 7%, transparent 22%),
+        linear-gradient(180deg, #FFF8E1 0%, #FFE0B2 32%, #FFE0B2 50%, #E0E0E0 50%, #BDBDBD 100%);
+}
+
+/* 游乐园 - 活泼但不刺眼 */
+.room-amusement {
+    background:
+        radial-gradient(circle at 18% 18%, rgba(255, 245, 157, 0.5) 0 8%, transparent 23%),
+        radial-gradient(circle at 82% 20%, rgba(244, 143, 177, 0.32) 0 10%, transparent 26%),
+        radial-gradient(ellipse at 50% 68%, rgba(129, 212, 250, 0.28) 0 18%, transparent 42%),
+        linear-gradient(180deg, #7DD7F6 0%, #B8ECFF 34%, #FFE5B4 34%, #FFD59A 50%, #75C66B 50%, #42A85D 100%);
+}
+
+.floor,
+.rug {
+    display: none;
+}
+
+.floor {
+    background: linear-gradient(180deg, rgba(215, 154, 92, 0.48) 0%, rgba(161, 102, 54, 0.58) 100%);
+    opacity: 0.22;
+}
+
+.rug {
+    background: radial-gradient(ellipse, rgba(236, 112, 99, 0.82) 0%, rgba(176, 73, 66, 0.78) 72%);
+    opacity: 0.42;
+}
+
+.game-scene.scene-living-room .floor,
+.game-scene.scene-living-room .rug {
+    display: block;
+}
+
+/* ==================== 房间家具 ==================== */
+.room-furniture {
+    position: absolute;
+    font-size: 50px;
+    cursor: pointer;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    z-index: 10;
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
+}
+
+.room-furniture:hover {
+    transform: scale(1.1);
+}
+
+.room-furniture.interactive {
+    animation: furnitureGlow 2s ease-in-out infinite;
+}
+
+@keyframes furnitureGlow {
+    0%, 100% { filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3)); }
+    50% { filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3)) drop-shadow(0 0 10px rgba(255,255,255,0.3)); }
+}
+
+/* 客厅家具位置 */
+.furniture-living-sofa { bottom: 20%; left: 8%; font-size: 70px; }
+.furniture-living-food { bottom: 18%; right: 10%; font-size: 45px; }
+.furniture-living-toy { top: 42%; right: 12%; font-size: 40px; }
+.furniture-living-bathtub { bottom: 16%; left: 38%; font-size: 55px; }
+.furniture-living-window { top: 8%; left: 50%; transform: translateX(-50%); font-size: 60px; }
+.furniture-living-plant { bottom: 55%; left: 5%; font-size: 50px; }
+.furniture-living-bookshelf { bottom: 50%; right: 5%; font-size: 55px; }
+.furniture-living-clock { top: 12%; right: 8%; font-size: 35px; }
+
+/* 卧室家具位置 */
+.furniture-bedroom-bed { bottom: 18%; left: 15%; font-size: 90px; }
+.furniture-bedroom-window { top: 8%; right: 10%; font-size: 55px; }
+.furniture-bedroom-clock { top: 12%; left: 10%; font-size: 35px; }
+.furniture-bedroom-plant { bottom: 50%; right: 8%; font-size: 45px; }
+.furniture-bedroom-lamp { bottom: 30%; right: 15%; font-size: 40px; }
+.furniture-bedroom-rug { bottom: 10%; left: 40%; font-size: 60px; }
+
+/* 浴室家具位置 */
+.furniture-bathroom-bathtub { bottom: 20%; left: 20%; font-size: 80px; }
+.furniture-bathroom-mirror { top: 15%; left: 50%; transform: translateX(-50%); font-size: 50px; }
+.furniture-bathroom-shelf { top: 35%; right: 10%; font-size: 40px; }
+.furniture-bathroom-towel { bottom: 40%; right: 8%; font-size: 40px; }
+.furniture-bathroom-window { top: 8%; left: 10%; font-size: 45px; }
+
+/* 花园家具位置 */
+.furniture-garden-flowers { bottom: 25%; left: 10%; font-size: 50px; }
+.furniture-garden-tree { bottom: 35%; right: 10%; font-size: 80px; }
+.furniture-garden-bench { bottom: 15%; left: 40%; font-size: 55px; }
+.furniture-garden-fence { bottom: 8%; left: 5%; font-size: 45px; }
+.furniture-garden-butterfly { top: 20%; left: 30%; font-size: 35px; }
+.furniture-garden-sun { top: 5%; right: 15%; font-size: 50px; }
+
+/* 厨房家具位置 */
+.furniture-kitchen-fridge { bottom: 35%; left: 8%; font-size: 65px; }
+.furniture-kitchen-stove { bottom: 35%; right: 10%; font-size: 55px; }
+.furniture-kitchen-counter { bottom: 20%; left: 35%; font-size: 60px; }
+.furniture-kitchen-herbs { top: 40%; left: 8%; font-size: 40px; }
+.furniture-kitchen-window { top: 8%; left: 50%; transform: translateX(-50%); font-size: 55px; }
+
+/* 游乐园家具位置 */
+.room-furniture.furniture-amusement-wheel {
+    bottom: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 110px;
+    animation: amusementWheelFloat 2.8s ease-in-out infinite;
+}
+.room-furniture.furniture-amusement-wheel:hover {
+    transform: translateX(-50%) scale(1.08);
+}
+.furniture-amusement-tent { bottom: 17%; left: 9%; font-size: 82px; }
+.furniture-amusement-balloons { top: 16%; right: 12%; font-size: 56px; animation: balloonFloat 3.4s ease-in-out infinite; }
+.furniture-amusement-booth { bottom: 14%; right: 12%; font-size: 58px; }
+.furniture-amusement-lights { top: 13%; left: 22%; font-size: 38px; animation: sparklePulse 1.4s ease-in-out infinite; }
+
+@keyframes amusementWheelFloat {
+    0%, 100% { filter: drop-shadow(0 8px 18px rgba(0,0,0,0.28)) drop-shadow(0 0 8px rgba(255,255,255,0.15)); }
+    50% { filter: drop-shadow(0 8px 18px rgba(0,0,0,0.28)) drop-shadow(0 0 18px rgba(255, 236, 120, 0.55)); }
+}
+
+@keyframes balloonFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes sparklePulse {
+    0%, 100% { opacity: 0.55; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.18); }
+}
+
+/* ==================== 游乐园抽奖大转盘 ==================== */
+.lottery-modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    background: rgba(16, 22, 38, 0.72);
+    backdrop-filter: blur(10px);
+    z-index: 600;
+}
+
+.lottery-modal.show {
+    display: flex;
+}
+
+.lottery-panel {
+    position: relative;
+    width: min(92vw, 460px);
+    padding: 20px 18px 18px;
+    border-radius: 8px;
+    color: #fff;
+    text-align: center;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 18% 12%, rgba(255,255,255,0.18), transparent 24%),
+        linear-gradient(145deg, #3551A4 0%, #BB5E8C 52%, #F0A24D 100%);
+    box-shadow: 0 24px 70px rgba(0,0,0,0.36);
+}
+
+.lottery-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 34px;
+    height: 34px;
+    border: 0;
+    border-radius: 50%;
+    color: #fff;
+    background: rgba(0,0,0,0.24);
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.lottery-title {
+    font-size: 24px;
+    font-weight: 800;
+    margin: 6px 34px 4px;
+}
+
+.lottery-subtitle,
+.lottery-note {
+    font-size: 12px;
+    color: rgba(255,255,255,0.84);
+}
+
+.lottery-stage {
+    position: relative;
+    width: 278px;
+    height: 278px;
+    margin: 18px auto 12px;
+}
+
+.lottery-pointer {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+    color: #FFE66D;
+    font-size: 30px;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.35);
+}
+
+.lottery-light-ring {
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, #FFE66D, #FF6B9D, #74B9FF, #7BED9F, #FFE66D);
+    animation: lotteryLights 1.6s linear infinite;
+    filter: blur(1px);
+}
+
+.lottery-wheel {
+    position: absolute;
+    inset: 0;
+    border: 10px solid rgba(255,255,255,0.86);
+    border-radius: 50%;
+    background:
+        conic-gradient(
+            #FF6B6B 0deg 45deg,
+            #FFD166 45deg 90deg,
+            #6BCB77 90deg 135deg,
+            #4D96FF 135deg 180deg,
+            #B36BFF 180deg 225deg,
+            #FF9F1C 225deg 270deg,
+            #2EC4B6 270deg 315deg,
+            #F15BB5 315deg 360deg
+        );
+    box-shadow: inset 0 0 24px rgba(0,0,0,0.22), 0 18px 34px rgba(0,0,0,0.26);
+    transition: transform 3.35s cubic-bezier(.12,.78,.08,1);
+}
+
+.lottery-wheel.is-spinning {
+    filter: saturate(1.15) brightness(1.08);
+}
+
+.lottery-wheel-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 86px;
+    height: 86px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: 6px solid rgba(255,255,255,0.92);
+    background: #263454;
+    font-size: 38px;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.3);
+}
+
+.lottery-segment-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 58px;
+    margin-left: -29px;
+    margin-top: -10px;
+    color: rgba(255,255,255,0.94);
+    font-size: 14px;
+    font-weight: 800;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.36);
+}
+
+.lottery-segment-label.label-a { transform: rotate(22deg) translateY(-96px) rotate(-22deg); }
+.lottery-segment-label.label-b { transform: rotate(112deg) translateY(-96px) rotate(-112deg); }
+.lottery-segment-label.label-c { transform: rotate(202deg) translateY(-96px) rotate(-202deg); }
+.lottery-segment-label.label-d { transform: rotate(292deg) translateY(-96px) rotate(-292deg); }
+
+.lottery-result {
+    min-height: 54px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.16);
+    font-size: 16px;
+    line-height: 1.45;
+}
+
+.lottery-result.won {
+    background: rgba(255, 238, 88, 0.22);
+}
+
+.lottery-result.missed {
+    background: rgba(0,0,0,0.2);
+}
+
+.lottery-result span {
+    font-size: 13px;
+    color: rgba(255,255,255,0.86);
+}
+
+.lottery-spin-btn {
+    width: 100%;
+    margin: 12px 0 8px;
+    padding: 13px 16px;
+    border: 0;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #FFE66D, #FF9F1C);
+    color: #45300A;
+    font-size: 17px;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+}
+
+.lottery-spin-btn:disabled {
+    opacity: 0.62;
+    cursor: not-allowed;
+}
+
+.lottery-confetti {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.lottery-confetti span {
+    position: absolute;
+    top: -24px;
+    font-size: 20px;
+    animation: confettiFall 1.8s ease-in forwards;
+}
+
+@keyframes lotteryLights {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes confettiFall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+    12% { opacity: 1; }
+    100% { transform: translateY(470px) rotate(540deg); opacity: 0; }
+}
+
+/* 电脑屏幕适配 */
+@media (min-width: 768px) {
+    .room-tab {
+        padding: 8px 14px;
+        font-size: 12px;
+        min-width: 60px;
+    }
+    .room-tab-icon {
+        font-size: 24px;
+    }
+    .room-tab-name {
+        font-size: 12px;
+    }
+    .achievement-content, .stats-content {
+        max-width: 500px;
+    }
+    .room-furniture {
+        font-size: 65px;
+    }
+    .furniture-living-sofa { font-size: 90px; }
+    .furniture-living-food { font-size: 60px; }
+    .furniture-living-toy { font-size: 55px; }
+    .furniture-living-bathtub { font-size: 70px; }
+    .furniture-bedroom-bed { font-size: 110px; }
+    .furniture-bathroom-bathtub { font-size: 100px; }
+    .furniture-garden-tree { font-size: 100px; }
+    .furniture-kitchen-fridge { font-size: 80px; }
+}
+
+/* ==================== 按钮禁用样式（房间限制） ==================== */
+.action-btn.room-disabled {
+    opacity: 0.4;
+    background: #999 !important;
+    cursor: not-allowed;
+    pointer-events: none;
+    filter: grayscale(100%);
+}
+
+.action-btn.room-disabled::after {
+    content: '🚫';
+    font-size: 10px;
+    position: absolute;
+    top: 2px;
+    right: 2px;
+}
+
+/* ==================== 统计面板 ==================== */
+.stats-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 300;
+    justify-content: center;
+    align-items: center;
+}
+
+.stats-modal.show {
+    display: flex;
+}
+
+.stats-content {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border-radius: 20px;
+    padding: 20px;
+    width: 90%;
+    max-width: 400px;
+    max-height: 80vh;
+    overflow-y: auto;
+    color: #fff;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.stats-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.stats-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.stats-close {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stats-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.stats-section {
+    margin-bottom: 15px;
+}
+
+.stats-section-title {
+    font-size: 14px;
+    font-weight: bold;
+    color: #FFD700;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.stats-item {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 8px 10px;
+    text-align: center;
+}
+
+.stats-item-icon {
+    font-size: 20px;
+}
+
+.stats-item-value {
+    font-size: 18px;
+    font-weight: bold;
+    color: #FFD700;
+}
+
+.stats-item-label {
+    font-size: 11px;
+    opacity: 0.7;
+}
+
+/* ==================== 猫咪心情 ==================== */
+.mood-bubble {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.95);
+    color: #333;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: bold;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: 60;
+    animation: moodFade 2s ease forwards;
+    pointer-events: none;
+}
+
+@keyframes moodFade {
+    0% { opacity: 1; transform: translateX(-50%) translateY(0); }
+    70% { opacity: 1; }
+    100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+}
+
+.mood-indicator {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    z-index: 55;
+    animation: moodPulse 2s ease-in-out infinite;
+}
+
+@keyframes moodPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+.mood-happy { background: #4CAF50; }
+.mood-content { background: #8BC34A; }
+.mood-neutral { background: #FFC107; }
+.mood-sad { background: #FF9800; }
+.mood-miserable { background: #f44336; }

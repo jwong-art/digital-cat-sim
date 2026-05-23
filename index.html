@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MYElectronic Cat - Nick's Server</title>
+    <title>我的电子小猫 - Nick's Server</title>
     <style>
         * {
             margin: 0;
@@ -27,7 +27,7 @@
             position: relative;
         }
 
-        /* TopStatusBar */
+        /* 顶部状态栏 */
         .status-bar {
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(20px);
@@ -85,7 +85,7 @@
             font-weight: bold;
         }
 
-        /* Screen Adaptation */
+        /* 电脑屏幕适配 */
         @media (min-width: 768px) {
             .status-bar {
                 padding: 20px 30px;
@@ -117,14 +117,14 @@
             }
         }
 
-        /* Game Scene */
+        /* 游戏场景 */
         .game-scene {
             flex: 1;
             position: relative;
             overflow: hidden;
         }
 
-        /* Background Decor */
+        /* 背景装饰 */
         .room-bg {
             position: absolute;
             width: 100%;
@@ -135,7 +135,7 @@
                 radial-gradient(circle at 50% 50%, rgba(255, 150, 200, 0.2) 0%, transparent 70%);
         }
 
-        /* Room Background */
+        /* 房间背景 */
         .room-bg {
             position: absolute;
             width: 100%;
@@ -144,24 +144,18 @@
                 linear-gradient(180deg, #87CEEB 0%, #E0F6FF 40%, #F5F5DC 40%, #DEB887 100%);
         }
 
-        /* Floor Texture */
+        /* 地板纹理 */
         .floor {
             position: absolute;
             bottom: 0;
             width: 100%;
             height: 60%;
-            background:
-                repeating-linear-gradient(
-                    90deg,
-                    #D2691E 0px,
-                    #D2691E 40px,
-                    #CD853F 40px,
-                    #CD853F 80px
-                );
-            opacity: 0.3;
+            display: none;
+            background: linear-gradient(180deg, rgba(215, 154, 92, 0.48) 0%, rgba(161, 102, 54, 0.58) 100%);
+            opacity: 0.22;
         }
 
-        /* Rug */
+        /* 地毯 */
         .rug {
             position: absolute;
             bottom: 10%;
@@ -169,13 +163,19 @@
             transform: translateX(-50%);
             width: 60%;
             height: 30%;
-            background: radial-gradient(ellipse, #FF6B6B 0%, #C0392B 70%);
+            display: none;
+            background: radial-gradient(ellipse, rgba(236, 112, 99, 0.82) 0%, rgba(176, 73, 66, 0.78) 72%);
             border-radius: 50%;
-            opacity: 0.6;
+            opacity: 0.42;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
-        /* FurnitureDecoration */
+        .game-scene.scene-living-room .floor,
+        .game-scene.scene-living-room .rug {
+            display: block;
+        }
+
+        /* 家具装饰 */
         .furniture {
             position: absolute;
             opacity: 0.95;
@@ -187,7 +187,7 @@
             transform: scale(1.05);
         }
 
-        /* Bed - Bigger and Refined */
+        /* 床 - 更大更精致 */
         .bed {
             bottom: 25%;
             left: 8%;
@@ -195,7 +195,7 @@
             font-size: 80px;
         }
 
-        /* Food Bowl */
+        /* 食盆 */
         .food-bowl {
             bottom: 20%;
             right: 8%;
@@ -203,7 +203,7 @@
             font-size: 50px;
         }
 
-        /* Toys */
+        /* 玩具 */
         .toy {
             top: 45%;
             right: 12%;
@@ -211,7 +211,7 @@
             font-size: 45px;
         }
 
-        /* Window */
+        /* 窗户 */
         .window {
             top: 8%;
             left: 50%;
@@ -220,7 +220,7 @@
             z-index: 5;
         }
 
-        /* Bathtub */
+        /* 浴缸 */
         .bathtub {
             bottom: 18%;
             left: 38%;
@@ -228,7 +228,7 @@
             font-size: 65px;
         }
 
-        /* PlantDecoration */
+        /* 植物装饰 */
         .plant {
             bottom: 60%;
             left: 5%;
@@ -236,7 +236,7 @@
             font-size: 55px;
         }
 
-        /* Bookshelf */
+        /* 书架 */
         .bookshelf {
             bottom: 55%;
             right: 5%;
@@ -244,7 +244,7 @@
             font-size: 60px;
         }
 
-        /* Clock */
+        /* 时钟 */
         .clock {
             top: 15%;
             right: 8%;
@@ -252,7 +252,7 @@
             font-size: 40px;
         }
 
-        /* SleepScreen - Based on originalBed，Plus Blanket and Cat Face */
+        /* 睡觉画面 - 基于原来的床，加上被子和猫脸 */
         .sleeping-scene {
             position: absolute;
             bottom: 25%;
@@ -268,7 +268,7 @@
             display: block;
         }
 
-        /* Bed（Original Look） */
+        /* 床（原来的样子） */
         .sleeping-bed {
             position: absolute;
             bottom: 0;
@@ -277,7 +277,7 @@
             z-index: 1;
         }
 
-        /* Blanket - Bulge covering onBedTop（White，AndBedSame） */
+        /* 被子 - 隆起覆盖在床上（白色，和床一样） */
         .sleeping-blanket-mound {
             position: absolute;
             bottom: 15px;
@@ -294,7 +294,7 @@
             animation: breathe 3s ease-in-out infinite;
         }
 
-        /* Cat Face - FromBlanketTopFaceShowingCome */
+        /* 猫脸 - 从被子上面露出来 */
         .sleeping-cat-face {
             position: absolute;
             bottom: 45px;
@@ -304,7 +304,7 @@
             z-index: 3;
         }
 
-        /* Purr Bubble */
+        /* 呼噜气泡 */
         .sleeping-z1, .sleeping-z2 {
             position: absolute;
             color: #87CEEB;
@@ -347,7 +347,7 @@
             }
         }
 
-        /* Screen Adaptation */
+        /* 电脑屏幕适配 */
         @media (min-width: 768px) {
             .sleeping-scene {
                 bottom: 20%;
@@ -388,7 +388,7 @@
             }
         }
 
-        /* FurnitureStyle */
+        /* 家具样式 */
         .furniture-item {
             position: absolute;
             cursor: pointer;
@@ -436,7 +436,7 @@
             50% { filter: drop-shadow(0 0 20px #FFD700) drop-shadow(0 0 30px #FF69B4); }
         }
 
-        /* TVScreen */
+        /* 电视画面 */
         .tv-screen {
             position: absolute;
             bottom: 65%;
@@ -509,7 +509,7 @@
             cursor: pointer;
         }
 
-        /* Mystery Device Effect */
+        /* 神秘设备光效 */
         .mystery-light {
             position: absolute;
             bottom: 30%;
@@ -534,7 +534,7 @@
             100% { transform: scale(3); opacity: 0; }
         }
 
-        /* Screen Adaptation */
+        /* 电脑屏幕适配 */
         @media (min-width: 768px) {
             .furniture-sofa {
                 bottom: 12%;
@@ -596,7 +596,7 @@
             }
         }
 
-        /* Screen Adaptation */
+        /* 电脑屏幕适配 */
         @media (min-width: 768px) {
             .bed {
                 font-size: 120px;
@@ -637,7 +637,7 @@
             }
         }
 
-        /* SleepCat at Time - Lying onBedTop */
+        /* 睡觉时的猫 - 躺在床上 */
         .cat-container.sleeping-on-bed {
             z-index: 5;
         }
@@ -648,7 +648,7 @@
 
 
 
-        /* Kitten Container */
+        /* 小猫容器 */
         .cat-container {
             position: absolute;
             width: 80px;
@@ -670,7 +670,7 @@
             transform: scaleX(-1) scale(1.1);
         }
 
-        /* SleepCat at TimeMeow */
+        /* 睡觉时的猫咪 */
         .cat-container.sleeping-on-bed {
             z-index: 15;
         }
@@ -679,7 +679,7 @@
             transform: rotate(-10deg);
         }
 
-        /* Screen Adaptation */
+        /* 电脑屏幕适配 */
         @media (min-width: 768px) {
             .cat-container {
                 width: 120px;
@@ -687,14 +687,14 @@
             }
         }
 
-        /* KittenSVG */
+        /* 小猫SVG */
         .cat-svg {
             width: 100%;
             height: 100%;
             filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
         }
 
-        /* KittenAnimation */
+        /* 小猫动画 */
         @keyframes walk {
             0%, 100% { transform: translateY(0) rotate(0deg); }
             25% { transform: translateY(-8px) rotate(-2deg); }
@@ -748,7 +748,7 @@
             animation: tailWag 1s ease-in-out infinite;
         }
 
-        /* StatusTip */
+        /* 状态提示 */
         .mood-bubble {
             position: absolute;
             background: #fff;
@@ -771,7 +771,7 @@
             border-top-color: #fff;
         }
 
-        /* Screen Adaptation */
+        /* 电脑屏幕适配 */
         @media (min-width: 768px) {
             .mood-bubble {
                 padding: 10px 20px;
@@ -792,7 +792,7 @@
             50% { transform: translateY(-10px); }
         }
 
-        /* Effects */
+        /* 特效 */
         .particle {
             position: absolute;
             font-size: 24px;
@@ -812,7 +812,7 @@
             }
         }
 
-        /* Bottom Buttons */
+        /* 底部按钮 */
         .controls {
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(20px);
@@ -863,7 +863,7 @@
             white-space: nowrap;
         }
 
-        /* Screen Adaptation */
+        /* 电脑屏幕适配 */
         @media (min-width: 768px) {
             .controls {
                 padding: 25px;
@@ -928,6 +928,11 @@
             color: #fff;
         }
 
+        .btn-flea-market {
+            background: linear-gradient(135deg, #f6d365, #fda085);
+            color: #fff;
+        }
+
         .btn-study {
             background: linear-gradient(135deg, #9b59b6, #8e44ad);
             color: #fff;
@@ -959,7 +964,7 @@
             transform: none;
         }
 
-        /* Back Button */
+        /* 返回按钮 */
         .back-btn {
             position: absolute;
             top: 10px;
@@ -980,7 +985,7 @@
             background: rgba(255, 255, 255, 0.3);
         }
 
-        /* Screen Adaptation */
+        /* 电脑屏幕适配 */
         @media (min-width: 768px) {
             .back-btn {
                 top: 20px;
@@ -991,7 +996,7 @@
             }
         }
 
-        /* WarningTip */
+        /* 警告提示 */
         .warning {
             position: absolute;
             top: 80px;
@@ -1009,7 +1014,7 @@
             white-space: nowrap;
         }
 
-        /* Screen Adaptation */
+        /* 电脑屏幕适配 */
         @media (min-width: 768px) {
             .warning {
                 top: 100px;
@@ -1028,7 +1033,7 @@
             display: block;
         }
 
-        /* MoneyShow */
+        /* 金钱显示 */
         .money-display {
             position: absolute;
             top: 10px;
@@ -1046,7 +1051,7 @@
             gap: 3px;
         }
 
-        /* Screen Adaptation */
+        /* 电脑屏幕适配 */
         @media (min-width: 768px) {
             .money-display {
                 top: 20px;
@@ -1059,7 +1064,7 @@
             }
         }
 
-        /* WorkOverlay */
+        /* 打工中遮罩 */
         .work-overlay {
             position: fixed;
             top: 0;
@@ -1099,7 +1104,7 @@
             margin-top: 15px;
         }
 
-        /* Screen Adaptation */
+        /* 电脑屏幕适配 */
         @media (min-width: 768px) {
             .work-text {
                 font-size: 32px;
@@ -1116,7 +1121,7 @@
             }
         }
 
-        /* PoopStyle */
+        /* 便便样式 */
         .poop {
             position: absolute;
             font-size: 28px;
@@ -1131,7 +1136,7 @@
             transform: scale(1.2);
         }
 
-        /* Screen Adaptation */
+        /* 电脑屏幕适配 */
         @media (min-width: 768px) {
             .poop {
                 font-size: 36px;
@@ -1153,7 +1158,7 @@
             animation: poopClean 0.5s ease-in forwards;
         }
 
-        /* PoopingAnimation */
+        /* 拉屎动画 */
         @keyframes pooping {
             0%, 100% { transform: translateY(0) scaleY(1); }
             25% { transform: translateY(-5px) scaleY(0.95); }
@@ -1165,7 +1170,7 @@
             animation: pooping 0.4s ease-in-out infinite;
         }
 
-        /* BatheAnimation */
+        /* 洗澡动画 */
         @keyframes bathing {
             0%, 100% { transform: translateY(0) rotate(0deg); }
             25% { transform: translateY(-3px) rotate(-2deg); }
@@ -1177,7 +1182,7 @@
             animation: bathing 0.8s ease-in-out infinite;
         }
 
-        /* BatheBubble */
+        /* 洗澡泡泡 */
         .bubble {
             position: absolute;
             font-size: 20px;
@@ -1201,7 +1206,7 @@
             }
         }
 
-        /* CleanEffects */
+        /* 清理特效 */
         .clean-effect {
             position: absolute;
             font-size: 28px;
@@ -1225,7 +1230,7 @@
             }
         }
 
-        /* ConnectionStatusIndicator */
+        /* 连接状态指示器 */
         .connection-status {
             position: absolute;
             top: 45px;
@@ -1253,7 +1258,7 @@
             color: #333;
         }
 
-        /* DaemonStatusIndicator */
+        /* 守护进程状态指示器 */
         .daemon-status {
             position: absolute;
             top: 70px;
@@ -1281,7 +1286,7 @@
             transform: scale(1.05);
         }
 
-        /* Screen Adaptation */
+        /* 电脑屏幕适配 */
         @media (min-width: 768px) {
             .connection-status {
                 top: 20px;
@@ -1300,7 +1305,7 @@
             }
         }
 
-        /* OfflineTip */
+        /* 离线提示 */
         .offline-notice {
             position: fixed;
             top: 0;
@@ -1332,8 +1337,8 @@
             opacity: 0.8;
         }
 
-        /* ShopModal */
-        .shop-modal, .inventory-modal {
+        /* 商店弹窗 */
+        .shop-modal, .inventory-modal, .flea-market-modal {
             position: fixed;
             top: 0;
             left: 0;
@@ -1347,11 +1352,11 @@
             padding: 20px;
         }
 
-        .shop-modal.show, .inventory-modal.show {
+        .shop-modal.show, .inventory-modal.show, .flea-market-modal.show {
             display: flex;
         }
 
-        .shop-content, .inventory-content {
+        .shop-content, .inventory-content, .flea-market-content {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 20px;
             padding: 20px;
@@ -1362,7 +1367,7 @@
             box-shadow: 0 10px 40px rgba(0,0,0,0.3);
         }
 
-        .shop-header, .inventory-header {
+        .shop-header, .inventory-header, .flea-market-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -1371,13 +1376,13 @@
             border-bottom: 2px solid rgba(255,255,255,0.2);
         }
 
-        .shop-title, .inventory-title {
+        .shop-title, .inventory-title, .flea-market-title {
             color: #fff;
             font-size: 24px;
             font-weight: bold;
         }
 
-        .shop-close, .inventory-close {
+        .shop-close, .inventory-close, .flea-market-close {
             background: rgba(255,255,255,0.2);
             border: none;
             color: #fff;
@@ -1389,7 +1394,7 @@
             transition: all 0.3s;
         }
 
-        .shop-close:hover, .inventory-close:hover {
+        .shop-close:hover, .inventory-close:hover, .flea-market-close:hover {
             background: rgba(255,255,255,0.3);
         }
 
@@ -1398,6 +1403,21 @@
             font-size: 18px;
             font-weight: bold;
             margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .flea-market-balance {
+            color: #FFD700;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .flea-market-note {
+            color: rgba(255,255,255,0.72);
+            font-size: 12px;
+            margin-bottom: 14px;
             text-align: center;
         }
 
@@ -1430,7 +1450,7 @@
             font-weight: bold;
         }
 
-        .shop-item, .inventory-item {
+        .shop-item, .inventory-item, .flea-market-item {
             background: rgba(255,255,255,0.15);
             border-radius: 15px;
             padding: 15px;
@@ -1441,26 +1461,26 @@
             transition: all 0.3s;
         }
 
-        .shop-item:hover {
+        .shop-item:hover, .flea-market-item:hover {
             background: rgba(255,255,255,0.25);
             transform: translateX(5px);
         }
 
-        .shop-item-icon, .inventory-item-icon {
+        .shop-item-icon, .inventory-item-icon, .flea-market-item-icon {
             font-size: 40px;
         }
 
-        .shop-item-info, .inventory-item-info {
+        .shop-item-info, .inventory-item-info, .flea-market-item-info {
             flex: 1;
         }
 
-        .shop-item-name, .inventory-item-name {
+        .shop-item-name, .inventory-item-name, .flea-market-item-name {
             color: #fff;
             font-size: 18px;
             font-weight: bold;
         }
 
-        .shop-item-desc, .inventory-item-desc {
+        .shop-item-desc, .inventory-item-desc, .flea-market-item-desc {
             color: rgba(255,255,255,0.7);
             font-size: 12px;
             margin-top: 3px;
@@ -1470,6 +1490,14 @@
             color: #FFD700;
             font-size: 20px;
             font-weight: bold;
+        }
+
+        .flea-market-price {
+            color: #FFD700;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: right;
+            white-space: nowrap;
         }
 
         .shop-item-buy {
@@ -1493,6 +1521,21 @@
             transform: none;
         }
 
+        .flea-market-sell {
+            background: linear-gradient(135deg, #00b894, #00cec9);
+            border: none;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .flea-market-sell:hover {
+            transform: scale(1.05);
+        }
+
         .inventory-item-quantity {
             color: #FFD700;
             font-size: 20px;
@@ -1506,7 +1549,7 @@
             font-size: 16px;
         }
 
-        /* FoodSelectModal */
+        /* 食物选择弹窗 */
         .food-modal {
             position: fixed;
             top: 0;
@@ -1617,7 +1660,7 @@
             font-size: 16px;
         }
 
-        /* ToysSelectModal */
+        /* 玩具选择弹窗 */
         .toy-modal {
             position: fixed;
             top: 0;
@@ -1741,7 +1784,7 @@
             font-size: 16px;
         }
 
-        /* StudyModal */
+        /* 学习弹窗 */
         .study-modal {
             position: fixed;
             top: 0;
@@ -1913,7 +1956,7 @@
             transform: none;
         }
 
-        /* Screen Adaptation */
+        /* 电脑屏幕适配 */
         @media (min-width: 768px) {
             .offline-notice h2 {
                 font-size: 32px;
@@ -1934,203 +1977,221 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="features.css?v=20260523-1150">
 </head>
 <body>
     <div class="game-container">
-        <a href="/" class="back-btn">← BackHome</a>
-        <div class="connection-status online" id="connectionStatus">🟢 Online</div>
-        <div class="daemon-status running" id="daemonStatus" title="ClickRefresh Status">⚙️ Daemon: Running</div>
-        <div class="money-display" id="moneyDisplay">💰 <span id="moneyValue">0</span> Yuan</div>
+        <!-- 房间切换标签（动态渲染） -->
+        <div class="room-tabs" id="roomTabs"></div>
+        <a href="/" class="back-btn">← 返回主页</a>
+        <div class="connection-status online" id="connectionStatus">🟢 在线</div>
+        <div class="daemon-status running" id="daemonStatus" title="点击刷新状态">⚙️ 守护进程: 运行中</div>
+        <div class="money-display" id="moneyDisplay">💰 <span id="moneyValue">0</span> 元</div>
 
-        <!-- OfflineTip -->
+        <!-- 离线提示 -->
         <div class="offline-notice" id="offlineNotice">
-            <h2>🔌 ConnectionDisconnected</h2>
-            <p>Trying to reconnectConnectionServer...</p>
+            <h2>🔌 连接断开</h2>
+            <p>正在尝试重新连接服务器...</p>
         </div>
 
-        <!-- ShopModal -->
+        <!-- 商店弹窗 -->
         <div class="shop-modal" id="shopModal">
             <div class="shop-content">
                 <div class="shop-header">
-                    <div class="shop-title">🏪 Shop</div>
+                    <div class="shop-title">🏪 商店</div>
                     <button class="shop-close" onclick="closeShop()">✕</button>
                 </div>
-                <div class="shop-balance">💰 Balance: <span id="shopBalance">0</span> Yuan</div>
-                <!-- CategoryMenu -->
+                <div class="shop-balance">💰 余额: <span id="shopBalance">0</span> 元</div>
+                <!-- 分类菜单 -->
                 <div class="shop-categories">
-                    <button class="shop-category-btn" onclick="showShopCategory('food')">🍽️ Food</button>
-                    <button class="shop-category-btn" onclick="showShopCategory('drink')">🥤 Drink</button>
-                    <button class="shop-category-btn" onclick="showShopCategory('toy')">🎮 Toys</button>
-                    <button class="shop-category-btn" onclick="showShopCategory('clothes')">👗 Clothes</button>
-                    <button class="shop-category-btn" onclick="showShopCategory('furniture')">🛋️ Furniture</button>
-                    <button class="shop-category-btn" onclick="showShopCategory('investment')">📈 Investment</button>
+                    <button class="shop-category-btn" onclick="showShopCategory('food')">🍽️ 食物</button>
+                    <button class="shop-category-btn" onclick="showShopCategory('drink')">🥤 饮料</button>
+                    <button class="shop-category-btn" onclick="showShopCategory('toy')">🎮 玩具</button>
+                    <button class="shop-category-btn" onclick="showShopCategory('clothes')">👗 衣服</button>
+                    <button class="shop-category-btn" onclick="showShopCategory('furniture')">🛋️ 家具</button>
+                    <button class="shop-category-btn" onclick="showShopCategory('investment')">📈 投资</button>
                 </div>
                 <div id="shopItems">
-                    <!-- Product List -->
+                    <!-- 商品列表 -->
                 </div>
             </div>
         </div>
 
-        <!-- InventoryModal -->
+        <!-- 仓库弹窗 -->
         <div class="inventory-modal" id="inventoryModal">
             <div class="inventory-content">
                 <div class="inventory-header">
-                    <div class="inventory-title">🎒 Inventory</div>
+                    <div class="inventory-title">🎒 仓库</div>
                     <button class="inventory-close" onclick="closeInventory()">✕</button>
                 </div>
                 <div id="inventoryItems">
-                    <!-- Item List -->
+                    <!-- 物品列表 -->
                 </div>
             </div>
         </div>
 
-        <!-- WardrobeModal -->
+        <!-- 跳蚤市场弹窗 -->
+        <div class="flea-market-modal" id="fleaMarketModal">
+            <div class="flea-market-content">
+                <div class="flea-market-header">
+                    <div class="flea-market-title">🧺 跳蚤市场</div>
+                    <button class="flea-market-close" onclick="closeFleaMarket()">✕</button>
+                </div>
+                <div class="flea-market-balance">💰 余额: <span id="fleaMarketBalance">0</span> 元</div>
+                <div class="flea-market-note">仓库道具按商店原价的一半卖出</div>
+                <div id="fleaMarketItems">
+                    <!-- 可卖物品列表 -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 衣柜弹窗 -->
         <div class="inventory-modal" id="wardrobeModal">
             <div class="inventory-content" style="background: linear-gradient(135deg, #ff9ff3 0%, #f368e0 100%);">
                 <div class="inventory-header">
-                    <div class="inventory-title">👗 Wardrobe</div>
+                    <div class="inventory-title">👗 衣柜</div>
                     <button class="inventory-close" onclick="closeWardrobe()">✕</button>
                 </div>
                 <div id="wardrobeItems">
-                    <!-- ClothesList -->
+                    <!-- 衣服列表 -->
                 </div>
                 <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.3);">
                     <button class="study-btn" onclick="unequipClothes()" style="background: linear-gradient(135deg, #95a5a6, #7f8c8d);">
-                        👕 RemoveClothes
+                        👕 脱掉衣服
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- FoodSelectModal -->
+        <!-- 食物选择弹窗 -->
         <div class="food-modal" id="foodModal">
             <div class="food-content">
                 <div class="food-header">
-                    <div class="food-title">🍽️ SelectFood</div>
+                    <div class="food-title">🍽️ 选择食物</div>
                     <button class="food-close" onclick="closeFoodModal()">✕</button>
                 </div>
                 <div id="foodItems">
-                    <!-- FoodList -->
+                    <!-- 食物列表 -->
                 </div>
             </div>
         </div>
 
-        <!-- DrinkSelectModal -->
+        <!-- 饮料选择弹窗 -->
         <div class="food-modal" id="drinkModal" style="z-index: 265;">
             <div class="food-content" style="background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);">
                 <div class="food-header">
-                    <div class="food-title">🥤 SelectDrink</div>
+                    <div class="food-title">🥤 选择饮料</div>
                     <button class="food-close" onclick="closeDrinkModal()">✕</button>
                 </div>
                 <div id="drinkItems">
-                    <!-- DrinkList -->
+                    <!-- 饮料列表 -->
                 </div>
             </div>
         </div>
 
-        <!-- ToysSelectModal -->
+        <!-- 玩具选择弹窗 -->
         <div class="toy-modal" id="toyModal">
             <div class="toy-content">
                 <div class="toy-header">
-                    <div class="toy-title">🎮 SelectToys</div>
+                    <div class="toy-title">🎮 选择玩具</div>
                     <button class="toy-close" onclick="closeToyModal()">✕</button>
                 </div>
                 <div id="toyItems">
-                    <!-- ToysList -->
+                    <!-- 玩具列表 -->
                 </div>
             </div>
         </div>
 
-        <!-- StudyModal -->
+        <!-- 学习弹窗 -->
         <div class="study-modal" id="studyModal">
             <div class="study-content">
                 <div class="study-header">
-                    <div class="study-title">📚 SkillsStudy</div>
+                    <div class="study-title">📚 技能学习</div>
                     <button class="study-close" onclick="closeStudy()">✕</button>
                 </div>
                 <div class="efficiency-bonus">
-                    <div class="efficiency-title">⚡ WorkEfficiency Bonus</div>
+                    <div class="efficiency-title">⚡ 打工效率加成</div>
                     <div class="efficiency-value" id="efficiencyValue">+0%</div>
                 </div>
                 <div id="skillsList">
-                    <!-- SkillsList -->
+                    <!-- 技能列表 -->
                 </div>
                 <button class="upgrade-btn" id="upgradeBtn" onclick="upgradeEfficiency()" disabled>
-                    🔥 UpgradeWorkEfficiency (NeedAllSkills10Lv)
+                    🔥 升级打工效率 (需要全部技能10级)
                 </button>
             </div>
         </div>
 
-        <!-- WorkOverlay -->
+        <!-- 打工中遮罩 -->
         <div class="work-overlay" id="workOverlay">
-            <div class="work-text">🏢 Go OutWorking...</div>
+            <div class="work-text">🏢 出门打工中...</div>
             <div class="work-timer" id="workTimer">5</div>
-            <div class="work-earning">💰 Estimated Income: 100Yuan</div>
-            <div style="color: #ff6b6b; margin-top: 10px; font-size: 14px;">⚠️ WorkConsume: Hunger-20 Thirst-15 Sleep-15 Happiness-10 Cleanliness-15</div>
+            <div class="work-earning">💰 预计收入: 100元</div>
+            <div style="color: #ff6b6b; margin-top: 10px; font-size: 14px;">⚠️ 打工消耗: 饥饿-20 口渴-15 睡眠-15 快乐-10 清洁-15</div>
         </div>
 
-        <!-- StudyOverlay -->
+        <!-- 学习中遮罩 -->
         <div class="work-overlay" id="studyOverlay" style="background: rgba(155, 89, 182, 0.9);">
-            <div class="work-text">📚 CurrentlyStudying...</div>
+            <div class="work-text">📚 正在学习中...</div>
             <div class="work-timer" id="studyTimer">10</div>
-            <div class="work-earning" id="studySkillName">SkillsUpgradeing</div>
-            <div id="bookshelfBonus" style="color: #FFD700; margin-top: 5px; font-size: 12px; display: none;">📚 Bookshelf Bonus：TimeHalved，ConsumeHalved</div>
-            <div style="color: #fff; margin-top: 10px; font-size: 14px;">⚠️ StudyConsume: Hunger-20 Thirst-15 Sleep-15 Happiness-10 Cleanliness-15</div>
+            <div class="work-earning" id="studySkillName">技能升级中</div>
+            <div id="bookshelfBonus" style="color: #FFD700; margin-top: 5px; font-size: 12px; display: none;">📚 书柜加成：时间减半，消耗减半</div>
+            <div style="color: #fff; margin-top: 10px; font-size: 14px;">⚠️ 学习消耗: 饥饿-20 口渴-15 睡眠-15 快乐-10 清洁-15</div>
         </div>
 
-        <!-- InvestmentModal -->
+        <!-- 投资弹窗 -->
         <div class="study-modal" id="investModal">
             <div class="study-content" style="background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);">
                 <div class="study-header">
-                    <div class="study-title">📈 MYInvestment</div>
+                    <div class="study-title">📈 我的投资</div>
                     <button class="study-close" onclick="closeInvest()">✕</button>
                 </div>
                 <div id="investList" style="max-height: 400px; overflow-y: auto;">
-                    <!-- InvestmentList -->
+                    <!-- 投资列表 -->
                 </div>
                 <div style="margin-top: 15px; padding-top: 15px; border-top: 2px solid rgba(255,255,255,0.2);">
                     <div style="color: #fff; font-size: 14px; margin-bottom: 10px;">
-                        💡 InvestmentIncome every5sAutoSettle，OfflineContinuous Income
+                        💡 投资收益每5秒自动结算，离线也持续收益
                     </div>
                     <div style="color: #FFD700; font-size: 12px;">
-                        🎮 Game Company：1Yuan/5s | 💾 Data Company：10Yuan/5s | 🤖 AICompany：100Yuan/5s
+                        🎮 游戏公司：1元/5秒 | 💾 数据公司：10元/5秒 | 🤖 AI公司：100元/5秒
                     </div>
                 </div>
             </div>
         </div>
         
-        <!-- StatusBar -->
+        <!-- 状态栏 -->
         <div class="status-bar">
             <div class="stat-item">
-                <div class="stat-label">🍖 HungerVal</div>
+                <div class="stat-label">🍖 饥饿值</div>
                 <div class="stat-bar">
                     <div class="stat-fill hunger-fill" id="hungerBar" style="width: 80%;"></div>
                 </div>
                 <div class="stat-value" id="hungerValue">80%</div>
             </div>
             <div class="stat-item">
-                <div class="stat-label">💧 ThirstVal</div>
+                <div class="stat-label">💧 口渴值</div>
                 <div class="stat-bar">
                     <div class="stat-fill thirst-fill" id="thirstBar" style="width: 80%;"></div>
                 </div>
                 <div class="stat-value" id="thirstValue">80%</div>
             </div>
             <div class="stat-item">
-                <div class="stat-label">💤 SleepVal</div>
+                <div class="stat-label">💤 睡眠值</div>
                 <div class="stat-bar">
                     <div class="stat-fill sleep-fill" id="sleepBar" style="width: 80%;"></div>
                 </div>
                 <div class="stat-value" id="sleepValue">80%</div>
             </div>
             <div class="stat-item">
-                <div class="stat-label">😊 HappinessVal</div>
+                <div class="stat-label">😊 快乐值</div>
                 <div class="stat-bar">
                     <div class="stat-fill happy-fill" id="happyBar" style="width: 80%;"></div>
                 </div>
                 <div class="stat-value" id="happyValue">80%</div>
             </div>
             <div class="stat-item">
-                <div class="stat-label">✨ CleanlinessDeg</div>
+                <div class="stat-label">✨ 清洁度</div>
                 <div class="stat-bar">
                     <div class="stat-fill clean-fill" id="cleanBar" style="width: 80%;"></div>
                 </div>
@@ -2138,116 +2199,98 @@
             </div>
         </div>
 
-        <!-- WarningTip -->
-        <div class="warning" id="warning">⚠️ KittenNeeds Care！</div>
+        <!-- 警告提示 -->
+        <div class="warning" id="warning">⚠️ 小猫需要照顾了！</div>
 
-        <!-- Game Scene -->
-        <div class="game-scene" id="gameScene">
-            <div class="room-bg"></div>
+        <!-- 游戏场景 -->
+        <div class="game-scene scene-living-room" id="gameScene">
+            <div class="room-bg room-living"></div>
             
-            <!-- Floor -->
+            <!-- 地板 -->
             <div class="floor"></div>
-
-            <!-- Rug -->
+            
+            <!-- 地毯 -->
             <div class="rug"></div>
 
-            <!-- Furniture -->
-            <div class="furniture window">🪟</div>
-            <div class="furniture plant">🪴</div>
-            <div class="furniture bookshelf">📚</div>
-            <div class="furniture clock">🕐</div>
-            <div class="furniture bed" id="bed">🛏️</div>
-            <div class="furniture bathtub" id="bathtub">🛁</div>
-            <div class="furniture food-bowl">🥣</div>
-            <div class="furniture toy">🧶</div>
-
-            <!-- SleepScreen（Based on originalBed，BlanketBulge showingCat Face）-->
+            <!-- 睡觉画面 -->
             <div class="sleeping-scene" id="sleepingScene">
-                <!-- Bed（Original Look） -->
                 <div class="sleeping-bed">🛏️</div>
-                <!-- BlanketBulge -->
                 <div class="sleeping-blanket-mound"></div>
-                <!-- Cat Face（ShowingBlanket） -->
                 <div class="sleeping-cat-face">
                     <svg viewBox="0 0 70 60">
-                        <!-- Cat Head -->
                         <ellipse cx="35" cy="35" rx="28" ry="22" fill="#FF8C42"/>
-                        <!-- Ears -->
                         <path d="M12 22 L8 5 L22 18 Z" fill="#FF8C42"/>
                         <path d="M58 22 L62 5 L48 18 Z" fill="#FF8C42"/>
                         <path d="M15 20 L12 10 L20 17 Z" fill="#FFB088"/>
                         <path d="M55 20 L58 10 L50 17 Z" fill="#FFB088"/>
-                        <!-- Closed Eyes（Curved Line） -->
                         <path d="M22 32 Q26 35 30 32" fill="none" stroke="#333" stroke-width="2.5" stroke-linecap="round"/>
                         <path d="M40 32 Q44 35 48 32" fill="none" stroke="#333" stroke-width="2.5" stroke-linecap="round"/>
-                        <!-- Nose -->
                         <circle cx="35" cy="38" r="3" fill="#FF6B9D"/>
-                        <!-- Mouth -->
                         <path d="M32 42 Q35 45 38 42" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round"/>
-                        <!-- Whiskers -->
                         <line x1="10" y1="35" x2="22" y2="37" stroke="#333" stroke-width="1.5"/>
                         <line x1="10" y1="40" x2="22" y2="39" stroke="#333" stroke-width="1.5"/>
                         <line x1="48" y1="37" x2="60" y2="35" stroke="#333" stroke-width="1.5"/>
                         <line x1="48" y1="39" x2="60" y2="40" stroke="#333" stroke-width="1.5"/>
                     </svg>
                 </div>
-                <!-- Purr Bubble -->
                 <div class="sleeping-z1">Z</div>
                 <div class="sleeping-z2">z</div>
             </div>
-            
-            <!-- PoopContainer -->
+
+            <!-- 便便容器 -->
             <div id="poopContainer"></div>
 
-            <!-- FurnitureContainer（DynamicAdd） -->
+            <!-- 家具容器（动态渲染，根据房间） -->
             <div id="furnitureContainer"></div>
 
-            <!-- TVScreen -->
+            <!-- 电视画面 -->
             <div class="tv-screen" id="tvScreen">
                 <div class="tv-content">
-                    <div class="tv-channel">📺 CatMeowChannel</div>
+                    <div class="tv-channel">📺 猫咪频道</div>
                     <div class="tv-animation">🐟 🐭 🐦</div>
-                    <div class="tv-text">Playing《CatMeowBig Adventure》</div>
+                    <div class="tv-text">正在播放《猫咪大冒险》</div>
                 </div>
-                <button class="tv-close" onclick="toggleTV()">CloseTV</button>
+                <button class="tv-close" onclick="toggleTV()">关闭电视</button>
             </div>
 
-            <!-- Mystery Device Effect -->
+            <!-- 神秘设备光效 -->
             <div class="mystery-light" id="mysteryLight"></div>
 
-            <!-- Kitten -->
+            <!-- 小猫 -->
             <div class="cat-container idle1" id="catContainer">
+                <!-- 心情指示器 -->
+                <div class="mood-indicator mood-content" id="moodIndicator">😺</div>
                 <svg class="cat-svg" viewBox="0 0 100 120" id="catSvg">
-                    <!-- Tail -->
+                    <!-- 尾巴 -->
                     <path class="cat-tail" d="M70 80 Q85 70 90 50 Q95 30 85 25 Q75 20 70 35" 
                           fill="none" stroke="#FF8C42" stroke-width="8" stroke-linecap="round"/>
                     
-                    <!-- Body -->
+                    <!-- 身体 -->
                     <ellipse cx="50" cy="75" rx="30" ry="25" fill="#FF8C42"/>
                     
-                    <!-- Head -->
+                    <!-- 头 -->
                     <circle cx="50" cy="45" r="28" fill="#FF8C42"/>
                     
-                    <!-- Ears -->
+                    <!-- 耳朵 -->
                     <path d="M25 30 L20 10 L40 25 Z" fill="#FF8C42"/>
                     <path d="M75 30 L80 10 L60 25 Z" fill="#FF8C42"/>
                     <path d="M28 28 L24 15 L35 26 Z" fill="#FFB088"/>
                     <path d="M72 28 L76 15 L65 26 Z" fill="#FFB088"/>
                     
-                    <!-- Eyes -->
+                    <!-- 眼睛 -->
                     <ellipse class="cat-eye" cx="40" cy="42" rx="5" ry="6" fill="#333"/>
                     <ellipse class="cat-eye" cx="60" cy="42" rx="5" ry="6" fill="#333"/>
                     <circle cx="42" cy="40" r="2" fill="#fff"/>
                     <circle cx="62" cy="40" r="2" fill="#fff"/>
                     
-                    <!-- Nose -->
+                    <!-- 鼻子 -->
                     <path d="M47 50 L53 50 L50 54 Z" fill="#FF6B9D"/>
                     
-                    <!-- Mouth -->
+                    <!-- 嘴巴 -->
                     <path class="cat-mouth" d="M50 54 Q45 58 40 55 M50 54 Q55 58 60 55" 
                           fill="none" stroke="#333" stroke-width="2" stroke-linecap="round"/>
                     
-                    <!-- Whiskers -->
+                    <!-- 胡须 -->
                     <line x1="20" y1="48" x2="35" y2="50" stroke="#333" stroke-width="1"/>
                     <line x1="18" y1="52" x2="35" y2="52" stroke="#333" stroke-width="1"/>
                     <line x1="20" y1="56" x2="35" y2="54" stroke="#333" stroke-width="1"/>
@@ -2255,77 +2298,90 @@
                     <line x1="82" y1="52" x2="65" y2="52" stroke="#333" stroke-width="1"/>
                     <line x1="80" y1="56" x2="65" y2="54" stroke="#333" stroke-width="1"/>
                     
-                    <!-- Paws -->
+                    <!-- 爪子 -->
                     <ellipse cx="35" cy="95" rx="8" ry="5" fill="#FFB088"/>
                     <ellipse cx="65" cy="95" rx="8" ry="5" fill="#FFB088"/>
                     
-                    <!-- Belly -->
+                    <!-- 肚子 -->
                     <ellipse cx="50" cy="75" rx="15" ry="12" fill="#FFB088" opacity="0.6"/>
                 </svg>
             </div>
         </div>
 
-        <!-- ControlButtons -->
+        <!-- 控制按钮 -->
         <div class="controls">
-            <!-- Daily Care -->
+            <!-- 日常照顾 -->
             <div class="control-group daily-care">
                 <button class="action-btn btn-eat" id="btnEat" onclick="feedCat()">
-                    🍗 Eating
+                    🍗 吃东西
                 </button>
                 <button class="action-btn btn-drink" id="btnDrink" onclick="drinkCat()">
-                    🥤 Drinking
+                    🥤 喝东西
                 </button>
                 <button class="action-btn btn-sleep" id="btnSleep" onclick="sleepCat()">
-                    😴 Sleep
+                    😴 睡觉
                 </button>
                 <button class="action-btn btn-play" id="btnPlay" onclick="playWithCat()">
-                    🎾 Play
+                    🎾 玩耍
                 </button>
                 <button class="action-btn btn-bathe" id="btnBathe" onclick="batheCat()">
-                    🛁 Bathe
+                    🛁 洗澡
                 </button>
             </div>
 
-            <!-- ShopInventory -->
+            <!-- 商店仓库 -->
             <div class="control-group shop-group">
                 <button class="action-btn btn-shop" id="btnShop" onclick="openShop()">
-                    🏪 Shop
+                    🏪 商店
                 </button>
                 <button class="action-btn btn-inventory" id="btnInventory" onclick="openInventory()">
-                    🎒 Inventory
+                    🎒 仓库
+                </button>
+                <button class="action-btn btn-flea-market" id="btnFleaMarket" onclick="openFleaMarket()">
+                    🧺 跳蚤市场
                 </button>
                 <button class="action-btn btn-wardrobe" id="btnWardrobe" onclick="openWardrobe()">
-                    👗 Wardrobe
+                    👗 衣柜
                 </button>
             </div>
 
-            <!-- Go OutActivity -->
+            <!-- 出门活动 -->
             <div class="control-group outdoor-group">
                 <button class="action-btn btn-work" id="btnWork" onclick="goToWork()">
-                    💼 Go OutWork
+                    💼 出门打工
                 </button>
                 <button class="action-btn btn-invest" id="btnInvest" onclick="openInvest()">
-                    📈 Investment
+                    📈 投资
                 </button>
                 <button class="action-btn btn-study" id="btnStudy" onclick="openStudy()">
-                    📚 Go OutStudy
+                    📚 出门学习
                 </button>
                 <button class="action-btn btn-hospital" id="btnHospital" onclick="goToHospital()">
-                    🏥 GoHospital
+                    🏥 去医院
+                </button>
+            </div>
+
+            <!-- 信息面板 -->
+            <div class="control-group info-group">
+                <button class="action-btn" style="background: linear-gradient(135deg, #FFD700, #FFA500);" onclick="showAchievementModal()">
+                    🏆 成就
+                </button>
+                <button class="action-btn" style="background: linear-gradient(135deg, #4CAF50, #2196F3);" onclick="showStatsModal()">
+                    📊 统计
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- ClothesModule -->
+    <!-- 衣服模块 -->
     <script src="clothes.js"></script>
 
-    <!-- Audio Element -->
+    <!-- 音频元素 -->
     <script>
-        // AudioTopContext
+        // 音频上下文
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
-        // Generate Meow Sound
+        // 生成喵喵声音
         function playMeow(type = 'normal') {
             if (audioContext.state === 'suspended') {
                 audioContext.resume();
@@ -2337,9 +2393,9 @@
             oscillator.connect(gainNode);
             gainNode.connect(audioContext.destination);
 
-            // Based onTypeAdjust Pitch
+            // 根据类型调整音调
             switch(type) {
-                case 'happy': // Happy
+                case 'happy': // 开心
                     oscillator.frequency.setValueAtTime(600, audioContext.currentTime);
                     oscillator.frequency.exponentialRampToValueAtTime(800, audioContext.currentTime + 0.1);
                     oscillator.frequency.exponentialRampToValueAtTime(500, audioContext.currentTime + 0.3);
@@ -2349,7 +2405,7 @@
                     oscillator.stop(audioContext.currentTime + 0.3);
                     break;
 
-                case 'hungry': // Hungry
+                case 'hungry': // 饿了
                     oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
                     oscillator.frequency.exponentialRampToValueAtTime(300, audioContext.currentTime + 0.4);
                     gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
@@ -2358,7 +2414,7 @@
                     oscillator.stop(audioContext.currentTime + 0.4);
                     break;
 
-                case 'sleepy': // Sleepy
+                case 'sleepy': // 困了
                     oscillator.frequency.setValueAtTime(350, audioContext.currentTime);
                     oscillator.frequency.exponentialRampToValueAtTime(250, audioContext.currentTime + 0.5);
                     gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
@@ -2367,7 +2423,7 @@
                     oscillator.stop(audioContext.currentTime + 0.5);
                     break;
 
-                case 'angry': // Angry/Dirty
+                case 'angry': // 生气/脏了
                     oscillator.frequency.setValueAtTime(500, audioContext.currentTime);
                     oscillator.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + 0.2);
                     oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.3);
@@ -2377,7 +2433,7 @@
                     oscillator.stop(audioContext.currentTime + 0.3);
                     break;
 
-                default: // Normal Meow
+                default: // 普通喵喵
                     oscillator.frequency.setValueAtTime(500, audioContext.currentTime);
                     oscillator.frequency.exponentialRampToValueAtTime(700, audioContext.currentTime + 0.1);
                     oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.3);
@@ -2388,13 +2444,13 @@
             }
         }
 
-        // PlayEatingSound
+        // 播放吃东西声音
         function playEatSound() {
             if (audioContext.state === 'suspended') {
                 audioContext.resume();
             }
 
-            // Chewing Sound
+            // 咀嚼声
             for (let i = 0; i < 3; i++) {
                 setTimeout(() => {
                     const oscillator = audioContext.createOscillator();
@@ -2413,7 +2469,7 @@
             }
         }
 
-        // PlaySleepPurr
+        // 播放睡觉呼噜声
         function playSleepSound() {
             if (audioContext.state === 'suspended') {
                 audioContext.resume();
@@ -2433,13 +2489,13 @@
             oscillator.stop(audioContext.currentTime + 0.5);
         }
 
-        // PlayPlaySound
+        // 播放玩耍声音
         function playPlaySound() {
             if (audioContext.state === 'suspended') {
                 audioContext.resume();
             }
 
-            // HappyShort Sound
+            // 开心的短音
             for (let i = 0; i < 2; i++) {
                 setTimeout(() => {
                     const oscillator = audioContext.createOscillator();
@@ -2457,13 +2513,13 @@
             }
         }
 
-        // PlayBatheSound
+        // 播放洗澡声音
         function playBathSound() {
             if (audioContext.state === 'suspended') {
                 audioContext.resume();
             }
 
-            // Splash Sound
+            // 水花声
             const oscillator = audioContext.createOscillator();
             const gainNode = audioContext.createGain();
             oscillator.connect(gainNode);
@@ -2479,7 +2535,7 @@
             oscillator.stop(audioContext.currentTime + 0.3);
         }
 
-        // PlayPoopSound
+        // 播放便便声音
         function playPoopSound() {
             if (audioContext.state === 'suspended') {
                 audioContext.resume();
@@ -2500,13 +2556,13 @@
             oscillator.stop(audioContext.currentTime + 0.2);
         }
 
-        // PlayClean PoopSound
+        // 播放清理便便声音
         function playCleanSound() {
             if (audioContext.state === 'suspended') {
                 audioContext.resume();
             }
 
-            // Broom Sound
+            // 扫把声
             const oscillator = audioContext.createOscillator();
             const gainNode = audioContext.createGain();
             oscillator.connect(gainNode);
@@ -2523,7 +2579,7 @@
             oscillator.stop(audioContext.currentTime + 0.2);
         }
 
-        // Random Meow
+        // 随机喵喵叫
         function randomMeow() {
             const meowTypes = ['normal', 'happy', 'hungry'];
             const randomType = meowTypes[Math.floor(Math.random() * meowTypes.length)];
@@ -2532,10 +2588,10 @@
     </script>
 
     <script>
-        // API BaseURL
+        // API 基础URL
         const API_URL = 'api.php';
         
-        // GameStatus
+        // 游戏状态
         let catState = {
             hunger: 80,
             thirst: 80,
@@ -2553,10 +2609,10 @@
         let updateInterval;
         let poops = [];
         let isPooping = false;
-        let ownedFurniture = []; // OwnedFurniture
-        let tvPlaying = false; // TVYesNoPlaying
-        let equippedClothes = null; // CurrentWearingClothes
-        let ownedInvestments = []; // OwnedInvestmentItem
+        let ownedFurniture = []; // 已拥有的家具
+        let tvPlaying = false; // 电视是否播放中
+        let equippedClothes = null; // 当前穿着的衣服
+        let ownedInvestments = []; // 已拥有的投资项目
 
         const catContainer = document.getElementById('catContainer');
         const catSvg = document.getElementById('catSvg');
@@ -2566,11 +2622,11 @@
         const daemonStatus = document.getElementById('daemonStatus');
         const offlineNotice = document.getElementById('offlineNotice');
 
-        // API Request Wrapper
+        // API 请求封装
         async function apiRequest(action, data = {}) {
             try {
                 connectionStatus.className = 'connection-status syncing';
-                connectionStatus.textContent = '🟡 Syncing';
+                connectionStatus.textContent = '🟡 同步中';
 
                 const url = `${API_URL}?action=${action}`;
                 const options = {
@@ -2591,30 +2647,30 @@
 
                 if (result.success) {
                     connectionStatus.className = 'connection-status online';
-                    connectionStatus.textContent = '🟢 Online';
+                    connectionStatus.textContent = '🟢 在线';
                     offlineNotice.classList.remove('show');
                     return result;
                 } else {
-                    // For BusinessError（If notToys），AlsoBackResultLet caller handle
+                    // 对于业务错误（如没有玩具），也返回结果让调用者处理
                     return result;
                 }
             } catch (error) {
                 connectionStatus.className = 'connection-status offline';
-                connectionStatus.textContent = '🔴 Offline';
+                connectionStatus.textContent = '🔴 离线';
                 offlineNotice.classList.add('show');
                 console.error('API Error:', error);
                 return null;
             }
         }
 
-        // UpdateStatusShow
+        // 更新状态显示
         function updateDisplay(state, poopList) {
-            // UpdateCountVal
+            // 更新数值
             document.getElementById('hungerBar').style.width = state.hunger + '%';
             document.getElementById('hungerValue').textContent = Math.round(state.hunger) + '%';
 
-            document.getElementById('thirstBar').style.width = (state.thirst || 80) + '%';
-            document.getElementById('thirstValue').textContent = Math.round(state.thirst || 80) + '%';
+            document.getElementById('thirstBar').style.width = ((state.thirst != null) ? state.thirst : 80) + '%';
+            document.getElementById('thirstValue').textContent = Math.round((state.thirst != null) ? state.thirst : 80) + '%';
 
             document.getElementById('sleepBar').style.width = state.sleep + '%';
             document.getElementById('sleepValue').textContent = Math.round(state.sleep) + '%';
@@ -2622,108 +2678,104 @@
             document.getElementById('happyBar').style.width = state.happy + '%';
             document.getElementById('happyValue').textContent = Math.round(state.happy) + '%';
 
-            document.getElementById('cleanBar').style.width = (state.cleanliness || 80) + '%';
-            document.getElementById('cleanValue').textContent = Math.round(state.cleanliness || 80) + '%';
+            document.getElementById('cleanBar').style.width = ((state.cleanliness != null) ? state.cleanliness : 80) + '%';
+            document.getElementById('cleanValue').textContent = Math.round((state.cleanliness != null) ? state.cleanliness : 80) + '%';
 
             document.getElementById('moneyValue').textContent = state.money;
 
-            // UpdateCatExpression
+            // 更新猫的表情
             updateCatExpression(state);
 
-            // UpdateClothesShow（KeepWearingClothes）
+            // 更新衣服显示（保持穿着的衣服）
             if (!state.isSleeping && !state.isBathing) {
                 updateCatClothes();
             }
 
-            // CheckWarning
-            if (state.hunger < 30 || state.sleep < 30 || state.happy < 30 || (state.cleanliness || 80) < 30 || (state.thirst || 80) < 30) {
+            // 检查警告
+            if (state.hunger < 30 || state.sleep < 30 || state.happy < 30 || ((state.cleanliness != null) ? state.cleanliness : 80) < 30 || ((state.thirst != null) ? state.thirst : 80) < 30) {
                 warning.classList.add('show');
             } else {
                 warning.classList.remove('show');
             }
 
-            // UpdateSleepStatus
-            if (state.isSleeping) {
-                // SleepTime：HideOriginalComeCatAndBed，ShowSleepScreen
+            // 更新睡觉状态
+            if (state.isSleeping && typeof currentRoom !== 'undefined' && currentRoom === 'bedroom') {
+                // 睡觉时：隐藏原来的猫和床，显示睡觉画面
                 catContainer.style.display = 'none';
-                document.getElementById('bed').style.display = 'none';
+                const _bed = document.getElementById("bed"); if (_bed) _bed.style.display = 'none';
                 document.getElementById('sleepingScene').classList.add('show');
-                document.getElementById('btnSleep').textContent = '☀️ UpBed';
+                document.getElementById('btnSleep').textContent = '☀️ 起床';
             } else if (state.isBathing) {
-                // BatheTime：ShowCatAndBed，HideSleepScreen
+                // 洗澡时：显示猫和床，隐藏睡觉画面
                 catContainer.style.display = 'block';
-                document.getElementById('bed').style.display = 'block';
+                const _bed2 = document.getElementById("bed"); if (_bed2) _bed2.style.display = 'block';
                 document.getElementById('sleepingScene').classList.remove('show');
                 catContainer.className = 'cat-container bathing';
-                document.getElementById('btnSleep').textContent = '😴 Sleep';
-                // UpdateCatMeowPosition
+                document.getElementById('btnSleep').textContent = '😴 睡觉';
+                // 更新猫咪位置
                 if (state.catPosition) {
                     catContainer.style.left = state.catPosition.x + '%';
                     catContainer.style.top = state.catPosition.y + '%';
                 }
             } else {
-                // NormalStatus：ShowCatAndBed，HideSleepScreen
+                // 正常状态：显示猫和床，隐藏睡觉画面
                 catContainer.style.display = 'block';
-                document.getElementById('bed').style.display = 'block';
+                const _bed3 = document.getElementById("bed"); if (_bed3) _bed3.style.display = 'block';
                 document.getElementById('sleepingScene').classList.remove('show');
-                // Stand and Walk Randomly
+                // 站立并随机走动
                 if (!isPooping && !isBusy) {
                     catContainer.className = 'cat-container idle1';
                 }
-                document.getElementById('btnSleep').textContent = '😴 Sleep';
-                // UpdateCatMeowPosition
+                document.getElementById('btnSleep').textContent = '😴 睡觉';
+                // 更新猫咪位置
                 if (state.catPosition) {
                     catContainer.style.left = state.catPosition.x + '%';
                     catContainer.style.top = state.catPosition.y + '%';
                 }
-                // If beforeYesSleepStatus（isBusy=true）But now notYes，Woke up naturallyCome，ResetisBusy
+                // 如果之前是睡觉状态（isBusy=true）但现在不是了，说明自然醒来，重置isBusy
                 if (isBusy && !state.isSleeping && !state.isWorking && !state.isBathing) {
                     isBusy = false;
                 }
             }
 
-            // UpdateButtonsDisabledStatus
-            const isActionDisabled = state.isSleeping || state.isWorking || state.isBathing;
-            // SleepButtons：Only whenWorkOrBatheTimeDisabled（SleepTimeCan use itComeUpBed）
-            document.getElementById('btnSleep').disabled = state.isWorking || state.isBathing;
-            document.getElementById('btnEat').disabled = isActionDisabled;
-            document.getElementById('btnDrink').disabled = isActionDisabled;
-            document.getElementById('btnPlay').disabled = isActionDisabled;
-            document.getElementById('btnBathe').disabled = isActionDisabled || (state.cleanliness >= 100);
-            document.getElementById('btnWork').disabled = isActionDisabled;
-            document.getElementById('btnStudy').disabled = isActionDisabled;
-            // HospitalButtons：Only whenSick and noHasBusyTimeOnly available
-            document.getElementById('btnHospital').disabled = isActionDisabled || !healthState.isSick;
+            // 更新按钮禁用状态（由 updateActionButtons 统一处理）
+            updateActionButtons();
 
-            // UpdatePoopShow
+            // 更新便便显示
             if (poopList) {
                 updatePoops(poopList);
             }
+            
+            // 更新猫咪心情
+            updateCatMood();
         }
 
-        // UpdateCatExpression
+        // 更新猫的表情
         function updateCatExpression(state) {
             const eyes = document.querySelectorAll('.cat-eye');
             const mouth = document.querySelector('.cat-mouth');
             const catSvg = document.getElementById('catSvg');
 
-            // SickTimeShowSick look
+            // 如果换了特殊衣服没有 cat-eye/cat-mouth class，跳过表情更新
+            if (eyes.length === 0 || !mouth) return;
+
+            // 生病时显示病态
             if (healthState.isSick) {
                 eyes.forEach(eye => {
                     eye.setAttribute('ry', '2');
                     eye.setAttribute('rx', '2');
                 });
                 mouth.setAttribute('d', 'M45 58 Q50 55 55 58');
-                // AddSick Effect（Green Filter）
+                // 添加生病效果（绿色滤镜）
                 catSvg.style.filter = 'drop-shadow(0 10px 20px rgba(0,0,0,0.3)) sepia(0.5) hue-rotate(90deg)';
                 return;
             } else {
-                // RecoverNormalFilter
+                // 恢复正常滤镜
                 catSvg.style.filter = 'drop-shadow(0 10px 20px rgba(0,0,0,0.3))';
             }
 
-            // Too dirtyTimeShowDirtyExpression
-            if ((state.cleanliness || 80) < 30) {
+            // 太脏时显示脏脏的表情
+            if (((state.cleanliness != null) ? state.cleanliness : 80) < 30) {
                 eyes.forEach(eye => eye.setAttribute('ry', '4'));
                 mouth.setAttribute('d', 'M45 58 Q50 55 55 58');
             } else if (state.hunger < 30 || state.sleep < 30) {
@@ -2738,13 +2790,13 @@
             }
         }
 
-        // UpdatePoopShow
+        // 更新便便显示
         function updatePoops(poopList) {
             const container = document.getElementById('poopContainer');
             const existingIds = Array.from(container.children).map(el => el.id);
             const newIds = poopList.map(p => p.id);
             
-            // Remove if not existsPoop
+            // 移除已不存在的便便
             existingIds.forEach(id => {
                 if (!newIds.includes(id)) {
                     const el = document.getElementById(id);
@@ -2752,7 +2804,7 @@
                 }
             });
             
-            // AddNewPoop
+            // 添加新便便
             poopList.forEach(poop => {
                 if (!document.getElementById(poop.id)) {
                     createPoopElement(poop);
@@ -2762,7 +2814,7 @@
             poops = poopList;
         }
 
-        // CreatePoopYuanElement
+        // 创建便便元素
         function createPoopElement(poop) {
             const container = document.getElementById('poopContainer');
             const el = document.createElement('div');
@@ -2781,7 +2833,7 @@
             container.appendChild(el);
         }
 
-        // CreateParticleEffects
+        // 创建粒子特效
         function createParticles(x, y, emoji) {
             for (let i = 0; i < 5; i++) {
                 setTimeout(() => {
@@ -2796,7 +2848,7 @@
             }
         }
 
-        // ShowMood Bubble
+        // 显示心情气泡
         function showMoodBubble(emoji) {
             const existing = document.querySelector('.mood-bubble');
             if (existing) existing.remove();
@@ -2812,7 +2864,7 @@
             setTimeout(() => bubble.remove(), 2000);
         }
 
-        // GetDaemonStatus
+        // 获取守护进程状态
         async function fetchDaemonStatus() {
             try {
                 const response = await fetch(`${API_URL}?action=daemon_status`);
@@ -2821,49 +2873,59 @@
                     updateDaemonStatus(result.running);
                 }
             } catch (error) {
-                console.error('GetDaemonStatusFailed:', error);
+                console.error('获取守护进程状态失败:', error);
                 updateDaemonStatus(false);
             }
         }
 
-        // UpdateDaemonStatusShow
+        // 更新守护进程状态显示
         function updateDaemonStatus(isRunning) {
             if (isRunning) {
                 daemonStatus.className = 'daemon-status running';
-                daemonStatus.textContent = '⚙️ Daemon: Running';
-                daemonStatus.title = 'DaemonRunning in background';
+                daemonStatus.textContent = '⚙️ 守护进程: 运行中';
+                daemonStatus.title = '守护进程正在后台运行';
             } else {
                 daemonStatus.className = 'daemon-status stopped';
-                daemonStatus.textContent = '⏹️ Daemon: Not running';
-                daemonStatus.title = 'ClickRefresh StatusOrWaitAutoStart';
+                daemonStatus.textContent = '⏹️ 守护进程: 未运行';
+                daemonStatus.title = '点击刷新状态或等待自动启动';
             }
         }
 
-        // ClickDaemonStatusRefresh
+        // 点击守护进程状态刷新
         daemonStatus.addEventListener('click', () => {
             fetchDaemonStatus();
         });
 
-        // GetStatus
+        // 获取状态
         async function fetchStatus() {
             const result = await apiRequest('status');
             if (result) {
                 catState = result.state;
                 updateDisplay(result.state, result.poops);
+                
+                // 处理随机事件
+                if (result.randomEvent) {
+                    showRandomEvent(result.randomEvent);
+                }
+                
+                // 处理成就解锁通知
+                if (result.newAchievements && result.newAchievements.length > 0) {
+                    showAchievementNotification(result.newAchievements);
+                }
             }
-            // TogetherTimeGetHealthStatus
+            // 同时获取健康状态
             const healthResult = await apiRequest('health');
             if (healthResult && healthResult.success) {
                 healthState = healthResult.health;
-                // UpdateHospitalButtonsStatus
+                // 更新医院按钮状态
                 const isActionDisabled = catState.isSleeping || catState.isWorking || catState.isBathing;
                 document.getElementById('btnHospital').disabled = isActionDisabled || !healthState.isSick;
             }
-            // TogetherTimeGetDaemonStatus
+            // 同时获取守护进程状态
             await fetchDaemonStatus();
         }
 
-        // Long polling：Continuously listen for background changes
+        // 长轮询：持续监听后台变化
         let longPollingActive = false;
         async function startLongPolling() {
             if (longPollingActive) return;
@@ -2873,7 +2935,7 @@
                 try {
                     const lastUpdate = catState.lastUpdate || 0;
                     
-                    // Create AbortController Used forTimeoutControl
+                    // 创建 AbortController 用于超时控制
                     const controller = new AbortController();
                     const timeoutId = setTimeout(() => controller.abort(), 35000);
                     
@@ -2890,61 +2952,61 @@
                     
                     const result = await response.json();
                     if (result && result.success) {
-                        // UpdateStatus
+                        // 更新状态
                         catState = result.state;
                         updateDisplay(result.state, result.poops);
                         
-                        // UpdateDaemonStatus
+                        // 更新守护进程状态
                         await fetchDaemonStatus();
                     }
                 } catch (error) {
-                    // IfYesingStopError，ContinueNext round
+                    // 如果是中止错误，继续下一轮
                     if (error.name === 'AbortError') {
                         continue;
                     }
-                    // Network Error，Retry after wait
+                    // 网络错误，等待后重试
                     await sleep(3000);
                 }
             }
         }
 
-        // HelperCount：Delay
+        // 辅助函数：延迟
         function sleep(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
 
-        // Feed - PopupFoodSelect
+        // 喂食 - 弹出食物选择
         async function feedCat() {
             if (isBusy || catState.isSleeping || catState.isWorking || catState.isBathing) {
                 if (catState.hunger >= 100) {
-                    showMoodBubble('😐 EatFull');
+                    showMoodBubble('😐 吃饱了');
                     playMeow('happy');
                 }
                 return;
             }
 
-            // FirstRefreshInventoryCountData
+            // 先刷新仓库数据
             const invResult = await apiRequest('inventory');
             if (invResult && invResult.success) {
                 inventory = invResult.items;
             }
 
-            // CheckYesNoHasFood
+            // 检查是否有食物
             const foods = inventory.filter(item =>
                 ['cat_food', 'fish_dry', 'chicken', 'sushi', 'steak', 'lobster', 'golden_food'].includes(item.id) && item.quantity > 0
             );
 
             if (foods.length === 0) {
-                showMoodBubble('🍽️ NoHasFood，FastGoShopBuy！');
+                showMoodBubble('🍽️ 没有食物了，快去商店购买吧！');
                 playMeow('hungry');
                 return;
             }
 
-            // ShowFoodSelectModal
+            // 显示食物选择弹窗
             showFoodModal(foods);
         }
 
-        // ShowFoodSelectModal
+        // 显示食物选择弹窗
         function showFoodModal(foods) {
             const modal = document.getElementById('foodModal');
             const itemsContainer = document.getElementById('foodItems');
@@ -2973,12 +3035,12 @@
             modal.classList.add('show');
         }
 
-        // CloseFoodModal
+        // 关闭食物弹窗
         function closeFoodModal() {
             document.getElementById('foodModal').classList.remove('show');
         }
 
-        // EatFood
+        // 吃食物
         async function eatFood(foodType) {
             closeFoodModal();
             isBusy = true;
@@ -2993,19 +3055,19 @@
                 'golden_food': '✨'
             };
 
-            playMeow('happy'); // HappyMeow
+            playMeow('happy'); // 开心的喵喵
 
-            // MoveToFood BowlPosition (85%, 75%)
+            // 移动到食盆位置 (85%, 75%)
             catContainer.style.left = '85%';
             catContainer.style.top = '75%';
             catContainer.className = 'cat-container walking';
 
-            // WaitMoveCompleted
+            // 等待移动完成
             await new Promise(resolve => setTimeout(resolve, 1000));
 
             catContainer.className = 'cat-container eating';
             showMoodBubble(foodIcons[foodType] + ' 😋');
-            playEatSound(); // EatingSound
+            playEatSound(); // 吃东西声音
 
             createParticles(
                 gameScene.offsetWidth * 0.85,
@@ -3021,7 +3083,7 @@
                         inventory = result.inventory;
                         updateDisplay(result.state);
                     } else {
-                        showMoodBubble('❌ ' + (result.message || 'EatingFailed'));
+                        showMoodBubble('❌ ' + (result.message || '吃东西失败'));
                     }
                 }
                 catContainer.className = 'cat-container idle1';
@@ -3029,34 +3091,34 @@
             }, 2000);
         }
 
-        // Drinking
+        // 喝东西
         async function drinkCat() {
             if (isBusy || catState.isSleeping || catState.isWorking || catState.isBathing) {
                 return;
             }
 
-            // FirstRefreshInventoryCountData
+            // 先刷新仓库数据
             const invResult = await apiRequest('inventory');
             if (invResult && invResult.success) {
                 inventory = invResult.items;
             }
 
-            // CheckYesNoHasDrink
+            // 检查是否有饮料
             const drinks = inventory.filter(item =>
                 ['milk', 'cola', 'coconut_water', 'orange_juice', 'coffee', 'energy_drink', 'magic_potion'].includes(item.id) && item.quantity > 0
             );
 
             if (drinks.length === 0) {
-                showMoodBubble('🥤 NoHasDrink，FastGoShopBuy！');
+                showMoodBubble('🥤 没有饮料了，快去商店购买吧！');
                 playMeow('hungry');
                 return;
             }
 
-            // ShowDrinkSelectModal
+            // 显示饮料选择弹窗
             showDrinkModal(drinks);
         }
 
-        // ShowDrinkSelectModal
+        // 显示饮料选择弹窗
         function showDrinkModal(drinks) {
             const modal = document.getElementById('drinkModal');
             const itemsContainer = document.getElementById('drinkItems');
@@ -3085,12 +3147,12 @@
             modal.classList.add('show');
         }
 
-        // CloseDrinkModal
+        // 关闭饮料弹窗
         function closeDrinkModal() {
             document.getElementById('drinkModal').classList.remove('show');
         }
 
-        // DrinkDrink
+        // 喝饮料
         async function drinkBeverage(drinkType) {
             closeDrinkModal();
             isBusy = true;
@@ -3105,19 +3167,19 @@
                 'magic_potion': '🔮'
             };
 
-            playMeow('happy'); // HappyMeow
+            playMeow('happy'); // 开心的喵喵
 
-            // MoveToFood BowlPositionDrink (85%, 75%)
+            // 移动到食盆位置喝水 (85%, 75%)
             catContainer.style.left = '85%';
             catContainer.style.top = '75%';
             catContainer.className = 'cat-container walking';
 
-            // WaitMoveCompleted
+            // 等待移动完成
             await new Promise(resolve => setTimeout(resolve, 1000));
 
             catContainer.className = 'cat-container eating';
-            showMoodBubble(drinkIcons[drinkType] + ' Gurgle~');
-            playEatSound(); // DrinkSound
+            showMoodBubble(drinkIcons[drinkType] + ' 咕噜咕噜~');
+            playEatSound(); // 喝水声音
 
             createParticles(
                 gameScene.offsetWidth * 0.85,
@@ -3133,7 +3195,7 @@
                         inventory = result.inventory;
                         updateDisplay(result.state);
                     } else {
-                        showMoodBubble('❌ ' + (result.message || 'DrinkingFailed'));
+                        showMoodBubble('❌ ' + (result.message || '喝东西失败'));
                     }
                 }
                 catContainer.className = 'cat-container idle1';
@@ -3141,7 +3203,7 @@
             }, 2000);
         }
 
-        // ClickModalExternalClose
+        // 点击弹窗外部关闭
         document.getElementById('foodModal').addEventListener('click', (e) => {
             if (e.target.id === 'foodModal') closeFoodModal();
         });
@@ -3149,23 +3211,28 @@
             if (e.target.id === 'drinkModal') closeDrinkModal();
         });
 
-        // Sleep/UpBed
+        // 睡觉/起床
         async function sleepCat() {
             console.log('sleepCat clicked, isSleeping:', catState.isSleeping, 'isBusy:', isBusy, 'isWorking:', catState.isWorking, 'isBathing:', catState.isBathing);
             
-            // IfCurrentlyWorkOrBathe，Cannot operate
+            // 如果正在打工或洗澡，不能操作
             if (catState.isWorking || catState.isBathing) {
                 console.log('Blocked: working or bathing');
                 return;
             }
+
+            if (!catState.isSleeping && typeof currentRoom !== 'undefined' && currentRoom !== 'bedroom') {
+                showMoodBubble('🛏️ 要去卧室睡觉');
+                return;
+            }
             
-            // IfYesBusy（But notYesSleepStatus），Cannot operate
+            // 如果是正在忙（但不是睡觉状态），不能操作
             if (isBusy && !catState.isSleeping) {
                 console.log('Blocked: busy but not sleeping');
                 return;
             }
 
-            // IfYesUpBedOperation
+            // 如果是起床操作
             if (catState.isSleeping) {
                 console.log('Waking up...');
                 const result = await apiRequest('sleep');
@@ -3173,21 +3240,21 @@
                 if (result) {
                     catState = result.state;
                     showMoodBubble('☀️');
-                    playMeow('normal'); // UpBedMeow
+                    playMeow('normal'); // 起床喵喵
                     isBusy = false;
-                    // UpBedAfter：ShowCatAndBed，HideSleepScreen
+                    // 起床后：显示猫和床，隐藏睡觉画面
                     catContainer.style.display = 'block';
-                    document.getElementById('bed').style.display = 'block';
+                    const _bed4 = document.getElementById("bed"); if (_bed4) _bed4.style.display = 'block';
                     document.getElementById('sleepingScene').classList.remove('show');
-                    // ForceUpdateStand upStatus
+                    // 强制更新为站立状态
                     catContainer.className = 'cat-container idle1';
-                    document.getElementById('btnSleep').textContent = '😴 Sleep';
-                    // UpdateCatMeowPosition
+                    document.getElementById('btnSleep').textContent = '😴 睡觉';
+                    // 更新猫咪位置
                     if (catState.catPosition) {
                         catContainer.style.left = catState.catPosition.x + '%';
                         catContainer.style.top = catState.catPosition.y + '%';
                     }
-                    // UpdateButtonsStatus
+                    // 更新按钮状态
                     document.getElementById('btnEat').disabled = false;
                     document.getElementById('btnDrink').disabled = false;
                     document.getElementById('btnPlay').disabled = false;
@@ -3199,14 +3266,14 @@
                 return;
             }
 
-            // IfYesGoSleep，FirstShowCatMoveToBedTop，ThenAfterSwitchToSleepScreen
+            // 如果是去睡觉，先显示猫移动到床上，然后切换到睡觉画面
             isBusy = true;
-            playMeow('sleepy'); // SleepyMeow
-            // ShowCat（If beforeHide）
+            playMeow('sleepy'); // 困了的喵喵
+            // 显示猫（如果之前隐藏了）
             catContainer.style.display = 'block';
-            document.getElementById('bed').style.display = 'block';
+            const _bed5 = document.getElementById("bed"); if (_bed5) _bed5.style.display = 'block';
             document.getElementById('sleepingScene').classList.remove('show');
-            // MoveToBedTop
+            // 移动到床上
             catContainer.style.left = '10%';
             catContainer.style.top = '68%';
             catContainer.className = 'cat-container walking';
@@ -3216,47 +3283,47 @@
             if (result) {
                 catState = result.state;
                 showMoodBubble('💤');
-                playSleepSound(); // SleepPurr
-                // HideOriginalComeCatAndBed，ShowSleepScreen
+                playSleepSound(); // 睡觉呼噜声
+                // 隐藏原来的猫和床，显示睡觉画面
                 catContainer.style.display = 'none';
-                document.getElementById('bed').style.display = 'none';
+                const _bed6 = document.getElementById("bed"); if (_bed6) _bed6.style.display = 'none';
                 document.getElementById('sleepingScene').classList.add('show');
-                document.getElementById('btnSleep').textContent = '☀️ UpBed';
+                document.getElementById('btnSleep').textContent = '☀️ 起床';
             }
         }
 
-        // Play - PopupToysSelect
+        // 玩耍 - 弹出玩具选择
         async function playWithCat() {
             if (isBusy || catState.isSleeping || catState.isWorking || catState.isBathing) {
                 if (catState.happy >= 100) {
-                    showMoodBubble('😆 Play enough');
+                    showMoodBubble('😆 玩够了');
                     playMeow('happy');
                 }
                 return;
             }
 
-            // FirstRefreshInventoryCountData
+            // 先刷新仓库数据
             const invResult = await apiRequest('inventory');
             if (invResult && invResult.success) {
                 inventory = invResult.items;
             }
 
-            // CheckYesNoHasToys
+            // 检查是否有玩具
             const toys = inventory.filter(item =>
                 ['cat_stick', 'robot_mouse', 'ball', 'feather', 'laser', 'drone', 'vr_headset'].includes(item.id) && item.quantity > 0
             );
 
             if (toys.length === 0) {
-                showMoodBubble('🪄 NoHasCatToys，FastGoShopBuy！');
-                playMeow('hungry'); // Disappointed sound
+                showMoodBubble('🪄 没有猫玩具了，快去商店购买吧！');
+                playMeow('hungry'); // 失望的叫声
                 return;
             }
 
-            // ShowToysSelectModal
+            // 显示玩具选择弹窗
             showToyModal(toys);
         }
 
-        // ShowToysSelectModal
+        // 显示玩具选择弹窗
         function showToyModal(toys) {
             const modal = document.getElementById('toyModal');
             const itemsContainer = document.getElementById('toyItems');
@@ -3280,7 +3347,7 @@
                             <div class="toy-item-name">${toy.name}</div>
                             <div class="toy-item-desc">${toy.description}</div>
                         </div>
-                        ${isInfinite ? '<div class="toy-item-infinite">♾️ Unlimited</div>' : `<div class="toy-item-quantity">×${toy.quantity}</div>`}
+                        ${isInfinite ? '<div class="toy-item-infinite">♾️ 无限</div>' : `<div class="toy-item-quantity">×${toy.quantity}</div>`}
                     </div>
                 `;
             }).join('');
@@ -3288,12 +3355,12 @@
             modal.classList.add('show');
         }
 
-        // CloseToysModal
+        // 关闭玩具弹窗
         function closeToyModal() {
             document.getElementById('toyModal').classList.remove('show');
         }
 
-        // UseToysPlay
+        // 使用玩具玩耍
         async function playWithToy(toyType) {
             closeToyModal();
             isBusy = true;
@@ -3309,28 +3376,28 @@
             };
 
             const toyMessages = {
-                'cat_stick': '🪄 TeaseCatStickHasFun！',
-                'robot_mouse': '🐭 Electronic mouse tooOKPlay！',
-                'ball': '🧶 Yarn ball rollingComeRollGo！',
-                'feather': '🪶 Feather floatingComeFloatGo！',
-                'laser': '🔴 Chase light spotToTired！',
-                'drone': '🚁 Drone flyingOKHigh！',
-                'vr_headset': '🥽 VR is cool！'
+                'cat_stick': '🪄 逗猫棒真有趣！',
+                'robot_mouse': '🐭 机器鼠太好玩了！',
+                'ball': '🧶 毛线球滚来滚去！',
+                'feather': '🪶 羽毛飘来飘去！',
+                'laser': '🔴 追光点追到累！',
+                'drone': '🚁 无人机飞得好高！',
+                'vr_headset': '🥽 虚拟现实太酷了！'
             };
 
-            playMeow('happy'); // HappyMeow
+            playMeow('happy'); // 开心的喵喵
 
-            // MoveToToysPosition (80%, 30%)
+            // 移动到玩具位置 (80%, 30%)
             catContainer.style.left = '80%';
             catContainer.style.top = '30%';
             catContainer.className = 'cat-container walking';
 
-            // WaitMoveCompleted
+            // 等待移动完成
             await new Promise(resolve => setTimeout(resolve, 1000));
 
             catContainer.className = 'cat-container playing';
-            showMoodBubble(toyIcons[toyType] + ' StartPlay！');
-            playPlaySound(); // PlaySound
+            showMoodBubble(toyIcons[toyType] + ' 开始玩耍！');
+            playPlaySound(); // 玩耍声音
 
             createParticles(
                 gameScene.offsetWidth * 0.8,
@@ -3345,7 +3412,7 @@
                         catState = result.state;
                         inventory = result.inventory;
                         updateDisplay(result.state);
-                        showMoodBubble(toyMessages[toyType] || '🎮 PlayCanOKHappy！');
+                        showMoodBubble(toyMessages[toyType] || '🎮 玩得好开心！');
                     } else if (result.error === 'no_toy') {
                         showMoodBubble('🪄 ' + result.message);
                         playMeow('hungry');
@@ -3356,25 +3423,25 @@
             }, 2000);
         }
 
-        // ClickModalExternalClose
+        // 点击弹窗外部关闭
         document.getElementById('toyModal').addEventListener('click', (e) => {
             if (e.target.id === 'toyModal') closeToyModal();
         });
 
-        // Bathe
+        // 洗澡
         async function batheCat() {
             if (isBusy || catState.isSleeping || catState.isWorking || catState.isBathing) {
-                if ((catState.cleanliness || 80) >= 100) {
-                    showMoodBubble('✨ Already clean');
+                if (((catState.cleanliness != null) ? catState.cleanliness : 80) >= 100) {
+                    showMoodBubble('✨ 已经很干净了');
                     playMeow('happy');
                 }
                 return;
             }
 
             isBusy = true;
-            playMeow('normal'); // ReadyBatheMeow
+            playMeow('normal'); // 准备洗澡的喵喵
 
-            // MoveToBathtubPosition (35%, 75%)
+            // 移动到浴缸位置 (35%, 75%)
             catContainer.style.left = '38%';
             catContainer.style.top = '75%';
             catContainer.className = 'cat-container walking';
@@ -3383,9 +3450,9 @@
             catContainer.className = 'cat-container bathing';
             showMoodBubble('🛁');
 
-            // CreateBubbleEffects（InBathtubPosition）
+            // 创建泡泡特效（在浴缸位置）
             const bubbleInterval = setInterval(() => {
-                playBathSound(); // BatheWater sound
+                playBathSound(); // 洗澡水声
                 for (let i = 0; i < 3; i++) {
                     const bubble = document.createElement('div');
                     bubble.className = 'bubble';
@@ -3399,39 +3466,61 @@
 
             const result = await apiRequest('bathe');
 
-            // BatheContinuous3s
+            // 洗澡持续3秒
             setTimeout(async () => {
                 clearInterval(bubbleInterval);
 
-                // ContinueWaitDirectToCleanlinessDegFull
+                // 继续等待直到清洁度满，最多重试30次（30秒）
+                let retryCount = 0;
+                const maxRetries = 30;
                 const checkBath = setInterval(async () => {
-                    const statusResult = await apiRequest('status');
-                    if (statusResult) {
-                        catState = statusResult.state;
-                        updateDisplay(statusResult.state, statusResult.poops);
-
-                        if (!catState.isBathing) {
-                            clearInterval(checkBath);
-                            showMoodBubble('✨ All clean now！');
-                            playMeow('happy'); // Finish bathingHappyMeow
-                            createParticles(
-                                gameScene.offsetWidth * 0.38,
-                                gameScene.offsetHeight * 0.75,
-                                '✨'
-                            );
-                            catContainer.className = 'cat-container idle1';
-                            isBusy = false;
+                    retryCount++;
+                    if (retryCount > maxRetries) {
+                        // 超时保护，强制结束洗澡状态
+                        clearInterval(checkBath);
+                        showMoodBubble('🛁 洗澡时间到了');
+                        catContainer.className = 'cat-container idle1';
+                        isBusy = false;
+                        // 刷新一次状态
+                        const statusResult = await apiRequest('status');
+                        if (statusResult) {
+                            catState = statusResult.state;
+                            updateDisplay(statusResult.state, statusResult.poops);
                         }
+                        return;
+                    }
+                    try {
+                        const statusResult = await apiRequest('status');
+                        if (statusResult) {
+                            catState = statusResult.state;
+                            updateDisplay(statusResult.state, statusResult.poops);
+
+                            if (!catState.isBathing) {
+                                clearInterval(checkBath);
+                                showMoodBubble('✨ 洗香香啦！');
+                                playMeow('happy'); // 洗完开心的喵喵
+                                createParticles(
+                                    gameScene.offsetWidth * 0.38,
+                                    gameScene.offsetHeight * 0.75,
+                                    '✨'
+                                );
+                                catContainer.className = 'cat-container idle1';
+                                isBusy = false;
+                            }
+                        }
+                    } catch (e) {
+                        // 网络错误，继续重试
+                        console.error('检查洗澡状态失败:', e);
                     }
                 }, 1000);
             }, 3000);
         }
 
-        // Go OutWork
+        // 出门打工
         async function goToWork() {
             if (isBusy || catState.isSleeping || catState.isWorking || catState.isBathing) return;
 
-            // CheckCountValYesNoEnough（WorkConsume：20Hunger、15Thirst、15Sleep、10Happiness、15Cleanliness）
+            // 检查数值是否足够（打工消耗：20饥饿、15口渴、15睡眠、10快乐、15清洁）
             const required = {
                 hunger: 20,
                 thirst: 15,
@@ -3441,14 +3530,14 @@
             };
 
             const shortages = [];
-            if (catState.hunger < required.hunger) shortages.push(`Hunger(${Math.round(catState.hunger)}/${required.hunger})`);
-            if (catState.thirst < required.thirst) shortages.push(`Thirst(${Math.round(catState.thirst)}/${required.thirst})`);
-            if (catState.sleep < required.sleep) shortages.push(`Sleep(${Math.round(catState.sleep)}/${required.sleep})`);
-            if (catState.happy < required.happy) shortages.push(`Happiness(${Math.round(catState.happy)}/${required.happy})`);
-            if (catState.cleanliness < required.cleanliness) shortages.push(`Cleanliness(${Math.round(catState.cleanliness)}/${required.cleanliness})`);
+            if (catState.hunger < required.hunger) shortages.push(`饥饿(${Math.round(catState.hunger)}/${required.hunger})`);
+            if (catState.thirst < required.thirst) shortages.push(`口渴(${Math.round(catState.thirst)}/${required.thirst})`);
+            if (catState.sleep < required.sleep) shortages.push(`睡眠(${Math.round(catState.sleep)}/${required.sleep})`);
+            if (catState.happy < required.happy) shortages.push(`快乐(${Math.round(catState.happy)}/${required.happy})`);
+            if (catState.cleanliness < required.cleanliness) shortages.push(`清洁(${Math.round(catState.cleanliness)}/${required.cleanliness})`);
 
             if (shortages.length > 0) {
-                showMoodBubble('⚠️ ' + shortages.join('、') + 'Not enough，CannotGo OutWork！');
+                showMoodBubble('⚠️ ' + shortages.join('、') + '不足，无法出门打工！');
                 playMeow('hungry');
                 return;
             }
@@ -3464,7 +3553,7 @@
                         btn.disabled = true;
                     });
 
-                    let timeLeft = 5; // WorkTime5s
+                    let timeLeft = 5; // 打工时间5秒
                     const timer = document.getElementById('workTimer');
                     timer.textContent = timeLeft;
 
@@ -3472,7 +3561,7 @@
                         timeLeft--;
                         timer.textContent = timeLeft;
 
-                        // EverysGetNewStatus
+                        // 每秒获取最新状态
                         await fetchStatus();
 
                         if (timeLeft <= 0 || !catState.isWorking) {
@@ -3482,9 +3571,9 @@
                                 btn.disabled = false;
                             });
                             isBusy = false;
-                            const bonusText = efficiencyBonus > 0 ? ` (+${efficiencyBonus}%Efficiency)` : '';
-                            showMoodBubble('🎉 Owner backCome！+100Yuan' + bonusText);
-                            playMeow('happy'); // Owner backComeHappyMeow
+                            const bonusText = efficiencyBonus > 0 ? ` (+${efficiencyBonus}%效率)` : '';
+                            showMoodBubble('🎉 主人回来啦！+100元' + bonusText);
+                            playMeow('happy'); // 主人回来开心的喵喵
                             createParticles(gameScene.offsetWidth / 2, gameScene.offsetHeight / 2, '💰');
                         }
                     }, 1000);
@@ -3492,15 +3581,51 @@
             }
         }
 
-        // Clean Poop
+        // 刷新页面后恢复打工遮罩
+        function recoverWorkOverlay() {
+            isBusy = true;
+            document.getElementById('workOverlay').classList.add('show');
+            document.querySelectorAll('.action-btn').forEach(btn => {
+                btn.disabled = true;
+            });
+
+            const workDuration = 5; // 打工时间5秒
+            let timeLeft = workDuration - (Math.floor(Date.now() / 1000) - catState.workStartTime);
+            if (timeLeft < 0) timeLeft = 0;
+            if (timeLeft > workDuration) timeLeft = workDuration;
+            
+            const timer = document.getElementById('workTimer');
+            timer.textContent = Math.ceil(timeLeft);
+
+            const workInterval = setInterval(async () => {
+                timeLeft--;
+                timer.textContent = Math.max(0, Math.ceil(timeLeft));
+
+                // 每秒获取最新状态
+                await fetchStatus();
+
+                if (timeLeft <= 0 || !catState.isWorking) {
+                    clearInterval(workInterval);
+                    document.getElementById('workOverlay').classList.remove('show');
+                    document.querySelectorAll('.action-btn').forEach(btn => {
+                        btn.disabled = false;
+                    });
+                    isBusy = false;
+                    const bonusText = efficiencyBonus > 0 ? ` (+${efficiencyBonus}%效率)` : '';
+                    showMoodBubble('🎉 主人回来啦！+100元' + bonusText);
+                }
+            }, 1000);
+        }
+
+        // 清理便便
         async function cleanPoop(poopId) {
             const poop = document.getElementById(poopId);
             if (!poop) return;
 
             poop.classList.add('cleaning');
-            playCleanSound(); // CleanSound
+            playCleanSound(); // 清理声音
 
-            // CleanEffects
+            // 清理特效
             const cleanEffect = document.createElement('div');
             cleanEffect.className = 'clean-effect';
             cleanEffect.textContent = '🧹✨';
@@ -3509,7 +3634,7 @@
             cleanEffect.style.transform = 'translate(-50%, -50%)';
             gameScene.appendChild(cleanEffect);
 
-            showMoodBubble('🧹 Clean！');
+            showMoodBubble('🧹 干净啦！');
 
             const result = await apiRequest('clean', { poopId });
             if (result) {
@@ -3523,7 +3648,7 @@
             }, 500);
         }
 
-        // ClickKittenInteraction（Pet）
+        // 点击小猫互动（抚摸）
         catContainer.addEventListener('click', async () => {
             if (isBusy || catState.isSleeping || catState.isWorking || catState.isBathing) return;
 
@@ -3532,24 +3657,24 @@
                 catState = result.state;
                 updateDisplay(result.state);
                 
-                // Based onHappinessValShowNotTogetherFeedback
+                // 根据快乐值显示不同的反馈
                 if (catState.happy <= 50) {
-                    // HappinessValLow，PetValid
+                    // 快乐值低，抚摸有效
                     createParticles(
                         gameScene.offsetWidth * (parseFloat(catContainer.style.left || 50) / 100),
                         gameScene.offsetHeight * (parseFloat(catContainer.style.top || 50) / 100),
                         '❤️'
                     );
-                    showMoodBubble('💕 Happiness+10');
+                    showMoodBubble('💕 快乐+10');
                     playMeow('happy');
                 } else {
-                    // HappinessValHigh，PetOnlyYesExpress love
+                    // 快乐值高，抚摸只是表达爱意
                     createParticles(
                         gameScene.offsetWidth * (parseFloat(catContainer.style.left || 50) / 100),
                         gameScene.offsetHeight * (parseFloat(catContainer.style.top || 50) / 100),
                         '😊'
                     );
-                    showMoodBubble('😽 Meow~');
+                    showMoodBubble('😽 喵~');
                     playMeow('happy');
                 }
             }
@@ -3558,21 +3683,32 @@
             setTimeout(() => catContainer.style.transform = '', 200);
         });
 
-        // StartGame
+        // 启动游戏
         async function initGame() {
-            // InitialGetStatus
+            // 初始获取状态
             await fetchStatus();
 
-            // InitialClothes
+            // 初始化衣服
             await initClothes();
 
-            // StartLong pollingListenAfterChange
+            // 恢复工作/学习状态（刷新页面后恢复遮罩）
+            if (catState.isWorking) {
+                recoverWorkOverlay();
+            } else {
+                // 检查学习状态
+                const skillsResult = await apiRequest('skills');
+                if (skillsResult && skillsResult.success && skillsResult.studyState && skillsResult.studyState.isStudying) {
+                    showStudyOverlay(skillsResult.studyState);
+                }
+            }
+
+            // 启动长轮询监听后台变化
             startLongPolling();
 
-            // AddRandom walkFeatures（WhenCatMeowNotBusyTime）
+            // 添加随机走动功能（当猫咪不忙时）
             setInterval(() => {
                 if (!isBusy && !catState.isSleeping && !catState.isWorking && !catState.isBathing) {
-                    // 30%ProbabilityRandom walk
+                    // 30%概率随机走动
                     if (Math.random() < 0.3) {
                         randomWalk();
                     }
@@ -3580,13 +3716,13 @@
             }, 5000);
         }
 
-        // Random walk
+        // 随机走动
         async function randomWalk() {
             if (isBusy) return;
 
             isBusy = true;
 
-            // Random targetPosition
+            // 随机目标位置
             const newX = 20 + Math.random() * 60;
             const newY = 30 + Math.random() * 50;
 
@@ -3594,19 +3730,19 @@
             catContainer.style.left = newX + '%';
             catContainer.style.top = newY + '%';
 
-            // Move1sAfterRecoveridle
+            // 移动1秒后恢复idle
             setTimeout(() => {
                 if (!catState.isSleeping && !catState.isWorking && !catState.isBathing) {
                     catContainer.className = 'cat-container idle1';
                 }
                 isBusy = false;
 
-                // SyncPositionToServer
+                // 同步位置到服务器
                 syncPosition(newX, newY);
             }, 1000);
         }
 
-        // SyncPositionToServer
+        // 同步位置到服务器
         async function syncPosition(x, y) {
             try {
                 await fetch(`${API_URL}?action=move`, {
@@ -3619,13 +3755,13 @@
             }
         }
 
-        // InventoryCountData
+        // 仓库数据
         let inventory = [];
         let skills = [];
         let efficiencyBonus = 0;
         let healthState = { isSick: false };
 
-        // InitialInventoryCountData
+        // 初始化仓库数据
         async function initInventory() {
             const result = await apiRequest('inventory');
             if (result && result.success) {
@@ -3633,11 +3769,11 @@
             }
         }
 
-        // InitialClothesCountData
+        // 初始化衣服数据
         async function initClothes() {
             const result = await apiRequest('wardrobe');
             if (result && result.success) {
-                // FindCurrentEquipClothes
+                // 查找当前装备的衣服
                 const equipped = result.items.find(item => item.isEquipped);
                 if (equipped) {
                     equippedClothes = equipped.id;
@@ -3646,7 +3782,7 @@
             }
         }
 
-        // InitialSkillsCountData
+        // 初始化技能数据
         async function initSkills() {
             const result = await apiRequest('skills');
             if (result && result.success) {
@@ -3655,7 +3791,7 @@
             }
         }
 
-        // InitialInvestmentCountData
+        // 初始化投资数据
         async function initInvestments() {
             const result = await apiRequest('investments');
             if (result && result.success) {
@@ -3663,7 +3799,7 @@
             }
         }
 
-        // InitialHealthStatus
+        // 初始化健康状态
         async function initHealth() {
             const result = await apiRequest('health');
             if (result && result.success) {
@@ -3671,12 +3807,12 @@
             }
         }
 
-        // OpenWardrobe
+        // 打开衣柜
         async function openWardrobe() {
             const modal = document.getElementById('wardrobeModal');
             const itemsContainer = document.getElementById('wardrobeItems');
 
-            // GetWardrobeCountData
+            // 获取衣柜数据
             const result = await apiRequest('wardrobe');
             if (!result || !result.success) return;
 
@@ -3684,7 +3820,7 @@
             const equipped = result.equipped;
 
             if (wardrobeItems.length === 0) {
-                itemsContainer.innerHTML = '<div style="color: rgba(255,255,255,0.8); text-align: center; padding: 40px;">WardrobeYesEmpty，FastGoShopBuyClothes！</div>';
+                itemsContainer.innerHTML = '<div style="color: rgba(255,255,255,0.8); text-align: center; padding: 40px;">衣柜是空的，快去商店购买衣服吧！</div>';
             } else {
                 const clothesIcons = {
                     'tshirt': '👕',
@@ -3706,7 +3842,7 @@
                         <div class="inventory-item-icon">${clothesIcons[item.id] || '👗'}</div>
                         <div class="inventory-item-info">
                             <div class="inventory-item-name">${item.name}</div>
-                            <div class="inventory-item-desc">${item.isEquipped ? '✨ CurrentlyWearing' : 'ClickWearTop'}</div>
+                            <div class="inventory-item-desc">${item.isEquipped ? '✨ 正在穿着' : '点击穿上'}</div>
                         </div>
                     </div>
                 `).join('');
@@ -3715,44 +3851,44 @@
             modal.classList.add('show');
         }
 
-        // CloseWardrobe
+        // 关闭衣柜
         function closeWardrobe() {
             document.getElementById('wardrobeModal').classList.remove('show');
         }
 
-        // WearTopClothes
+        // 穿上衣服
         async function equipClothes(itemId) {
             const result = await apiRequest('equip', { itemId });
             if (result && result.success) {
                 equippedClothes = itemId;
-                showMoodBubble('👗 Change clothesSuccess！');
+                showMoodBubble('👗 换装成功！');
                 playMeow('happy');
-                // RefreshWardrobeShow
+                // 刷新衣柜显示
                 openWardrobe();
-                // RefreshCatMeowShow
+                // 刷新猫咪显示
                 updateCatClothes();
             }
         }
 
-        // RemoveClothes
+        // 脱掉衣服
         async function unequipClothes() {
             const result = await apiRequest('equip', { itemId: '' });
             if (result && result.success) {
                 equippedClothes = null;
-                showMoodBubble('👕 AlreadyRemoveClothes');
-                // RefreshWardrobeShow
+                showMoodBubble('👕 已脱掉衣服');
+                // 刷新衣柜显示
                 openWardrobe();
-                // RefreshCatMeowShow
+                // 刷新猫咪显示
                 updateCatClothes();
             }
         }
 
-        // UpdateCatMeowClothesShow
+        // 更新猫咪衣服显示
         function updateCatClothes() {
             const catSvg = document.getElementById('catSvg');
             if (!catSvg) return;
 
-            // Based onEquipClothesUpdate SVG
+            // 根据装备的衣服更新 SVG
             if (equippedClothes && typeof getCatSVGByClothes === 'function') {
                 catSvg.innerHTML = getCatSVGByClothes(equippedClothes);
             } else {
@@ -3760,7 +3896,7 @@
             }
         }
 
-        // GoHospital
+        // 去医院
         async function goToHospital() {
             if (isBusy || catState.isSleeping || catState.isWorking || catState.isBathing) return;
 
@@ -3770,9 +3906,9 @@
                     catState.money = result.balance;
                     healthState = result.health;
                     document.getElementById('moneyValue').textContent = catState.money;
-                    showMoodBubble('🏥 KittenMeowRecoverHealth！Cost500Yuan');
+                    showMoodBubble('🏥 小猫咪恢复健康了！花费500元');
                     playMeow('happy');
-                    // UpdateButtonsStatus
+                    // 更新按钮状态
                     document.getElementById('btnHospital').disabled = true;
                 } else if (result.error === 'not_sick') {
                     showMoodBubble('✅ ' + result.message);
@@ -3784,9 +3920,9 @@
             }
         }
 
-        // OpenStudyModal
+        // 打开学习弹窗
         async function openStudy() {
-            // CheckCountValYesNoEnough（StudyConsume：20Hunger、15Thirst、15Sleep、10Happiness、15Cleanliness）
+            // 检查数值是否足够（学习消耗：20饥饿、15口渴、15睡眠、10快乐、15清洁）
             const required = {
                 hunger: 20,
                 thirst: 15,
@@ -3796,23 +3932,23 @@
             };
 
             const shortages = [];
-            if (catState.hunger < required.hunger) shortages.push(`Hunger(${Math.round(catState.hunger)}/${required.hunger})`);
-            if (catState.thirst < required.thirst) shortages.push(`Thirst(${Math.round(catState.thirst)}/${required.thirst})`);
-            if (catState.sleep < required.sleep) shortages.push(`Sleep(${Math.round(catState.sleep)}/${required.sleep})`);
-            if (catState.happy < required.happy) shortages.push(`Happiness(${Math.round(catState.happy)}/${required.happy})`);
-            if (catState.cleanliness < required.cleanliness) shortages.push(`Cleanliness(${Math.round(catState.cleanliness)}/${required.cleanliness})`);
+            if (catState.hunger < required.hunger) shortages.push(`饥饿(${Math.round(catState.hunger)}/${required.hunger})`);
+            if (catState.thirst < required.thirst) shortages.push(`口渴(${Math.round(catState.thirst)}/${required.thirst})`);
+            if (catState.sleep < required.sleep) shortages.push(`睡眠(${Math.round(catState.sleep)}/${required.sleep})`);
+            if (catState.happy < required.happy) shortages.push(`快乐(${Math.round(catState.happy)}/${required.happy})`);
+            if (catState.cleanliness < required.cleanliness) shortages.push(`清洁(${Math.round(catState.cleanliness)}/${required.cleanliness})`);
 
             if (shortages.length > 0) {
-                showMoodBubble('⚠️ ' + shortages.join('、') + 'Not enough，CannotGo OutStudy！');
+                showMoodBubble('⚠️ ' + shortages.join('、') + '不足，无法出门学习！');
                 playMeow('hungry');
                 return;
             }
 
-            // CheckYesNoCurrentlyStudy
+            // 检查是否正在学习
             const result = await apiRequest('skills');
             if (!result || !result.success) return;
 
-            // IfCurrentlyStudying，ShowStudyMask
+            // 如果正在学习中，显示学习遮罩
             if (result.studyState && result.studyState.isStudying) {
                 showStudyOverlay(result.studyState);
                 return;
@@ -3823,10 +3959,10 @@
             skills = result.skills;
             efficiencyBonus = result.efficiency;
 
-            // UpdateEfficiencyShow
+            // 更新效率显示
             document.getElementById('efficiencyValue').textContent = '+' + efficiencyBonus + '%';
 
-            // RenderSkillsList
+            // 渲染技能列表
             const skillsList = document.getElementById('skillsList');
             const skillIcons = {
                 'chinese': '📖',
@@ -3836,7 +3972,7 @@
                 'chemistry': '⚗️'
             };
 
-            // CheckYesNoHasBookshelf
+            // 检查是否有书柜
             const hasBookshelf = ownedFurniture.some(f => f.id === 'bookshelf');
 
             skillsList.innerHTML = skills.map(skill => `
@@ -3850,28 +3986,28 @@
                     </div>
                     ${skill.level < skill.maxLevel ? `
                         <button class="study-btn" onclick="studySkill('${skill.id}')">
-                            📖 Study ${skill.name} (+1Lv)
-                            (5s)${hasBookshelf ? '<span style="color: #FFD700;"> 📚 ConsumeHalved</span>' : ''}
+                            📖 学习 ${skill.name} (+1级)
+                            (5秒)${hasBookshelf ? '<span style="color: #FFD700;"> 📚 消耗减半</span>' : ''}
                         </button>
-                    ` : '<div style="color: #FFD700; text-align: center; margin-top: 8px;">✅ AlreadyFullLv</div>'}
+                    ` : '<div style="color: #FFD700; text-align: center; margin-top: 8px;">✅ 已满级</div>'}
                 </div>
             `).join('');
 
-            // CheckYesNoCanUpgrade
+            // 检查是否可以升级
             const allMaxed = skills.every(s => s.level >= s.maxLevel);
             const upgradeBtn = document.getElementById('upgradeBtn');
             if (allMaxed) {
                 upgradeBtn.disabled = false;
-                upgradeBtn.textContent = '🔥 UpgradeWorkEfficiency (+10%)';
+                upgradeBtn.textContent = '🔥 升级打工效率 (+10%)';
             } else {
                 upgradeBtn.disabled = true;
-                upgradeBtn.textContent = '🔒 NeedAllSkills10LvOnly canUpgrade';
+                upgradeBtn.textContent = '🔒 需要全部技能10级才能升级';
             }
 
             modal.classList.add('show');
         }
 
-        // ShowStudyMask
+        // 显示学习遮罩
         function showStudyOverlay(studyState) {
             const overlay = document.getElementById('studyOverlay');
             const timer = document.getElementById('studyTimer');
@@ -3879,20 +4015,20 @@
             const bookshelfBonus = document.getElementById('bookshelfBonus');
 
             const skillNames = {
-                'chinese': 'Chinese',
-                'math': 'CountStudy',
-                'english': 'English',
-                'physics': 'Physics',
-                'chemistry': 'Study'
+                'chinese': '语文',
+                'math': '数学',
+                'english': '英语',
+                'physics': '物理',
+                'chemistry': '化学'
             };
 
-            skillNameEl.textContent = '📖 CurrentlyStudy: ' + (skillNames[studyState.skillId] || studyState.skillId);
+            skillNameEl.textContent = '📖 正在学习: ' + (skillNames[studyState.skillId] || studyState.skillId);
 
-            // CheckYesNoHasBookshelf（BookshelfReduceConsume，NotReduceTime）
+            // 检查是否有书柜（书柜减少消耗，不减少时间）
             const hasBookshelf = ownedFurniture.some(f => f.id === 'bookshelf');
-            const studyDuration = 5; // StudyTimeFixed5s
+            const studyDuration = 5; // 学习时间固定5秒
 
-            // Show/HideBookshelf BonusTip
+            // 显示/隐藏书柜加成提示
             if (bookshelfBonus) {
                 bookshelfBonus.style.display = hasBookshelf ? 'block' : 'none';
             }
@@ -3902,17 +4038,20 @@
                 btn.disabled = true;
             });
 
-            // Calculate remainingTime
-            let timeLeft = studyDuration - (Math.floor(Date.now() / 1000) - studyState.startTime);
-            if (timeLeft < 0) timeLeft = 0;
-            if (timeLeft > studyDuration) timeLeft = studyDuration;
+            // 计算剩余时间
+            let timeLeft = studyDuration;
+            if (studyState.startTime && studyState.isStudying) {
+                timeLeft = studyDuration - (Math.floor(Date.now() / 1000) - studyState.startTime);
+                if (timeLeft < 0) timeLeft = 0;
+                if (timeLeft > studyDuration) timeLeft = studyDuration;
+            }
             timer.textContent = timeLeft;
 
             const studyInterval = setInterval(async () => {
                 timeLeft--;
                 timer.textContent = timeLeft;
 
-                // EverysGetNewStatus
+                // 每秒获取最新状态
                 await fetchStatus();
 
                 if (timeLeft <= 0) {
@@ -3921,84 +4060,85 @@
                     document.querySelectorAll('.action-btn').forEach(btn => {
                         btn.disabled = false;
                     });
-                    showMoodBubble('📚 StudyCompleted！Skills+1');
+                    showMoodBubble('📚 学习完成！技能+1');
                     playMeow('happy');
                 }
             }, 1000);
         }
 
-        // CloseStudyModal
+        // 关闭学习弹窗
         function closeStudy() {
             document.getElementById('studyModal').classList.remove('show');
         }
 
-        // StudySkills
+        // 学习技能
         async function studySkill(skillId) {
             const result = await apiRequest('study', { skillId });
             if (result && result.success) {
                 closeStudy();
-                showMoodBubble('📚 StartStudy...');
+                showMoodBubble('📚 开始学习...');
                 playMeow('happy');
-                // ShowStudyMask
+                // 显示学习遮罩
                 showStudyOverlay(result.studyState);
             } else {
-                showMoodBubble('❌ ' + (result?.error || 'StudyFailed'));
+                showMoodBubble('❌ ' + (result?.error || '学习失败'));
             }
         }
 
-        // UpgradeWorkEfficiency
+        // 升级打工效率
         async function upgradeEfficiency() {
             const result = await apiRequest('upgrade');
             if (result && result.success) {
                 efficiencyBonus = result.bonus;
-                showMoodBubble('🎉 WorkEfficiencyUpgradeTo +' + efficiencyBonus + '%！');
+                showMoodBubble('🎉 打工效率升级到 +' + efficiencyBonus + '%！');
                 playMeow('happy');
-                // RefreshModal
+                // 刷新弹窗
                 openStudy();
             } else {
-                showMoodBubble('❌ ' + (result?.error || 'UpgradeFailed'));
+                showMoodBubble('❌ ' + (result?.error || '升级失败'));
             }
         }
 
-        // ClickModalExternalClose
+        // 点击弹窗外部关闭
         document.getElementById('studyModal').addEventListener('click', (e) => {
             if (e.target.id === 'studyModal') closeStudy();
         });
 
-        // ShopCountDataCache
+        // 商店数据缓存
         let shopItems = [];
         let wardrobeItems = [];
+        let fleaMarketItems = [];
 
-        // CurrentSelectingShopCategory
+        // 当前选中的商店分类
         let currentShopCategory = 'food';
 
-        // OpenShop
+        // 打开商店
         async function openShop() {
             const modal = document.getElementById('shopModal');
             const balanceEl = document.getElementById('shopBalance');
 
-            // GetShopProduct
+            // 获取商店商品
             const result = await apiRequest('shop');
             if (!result) return;
 
             shopItems = result.items;
 
-            // GetWardrobe（Used forCheckYesNoOwnedClothes）
+            // 获取衣柜（用于检查是否已拥有衣服）
             const wardrobeResult = await apiRequest('wardrobe');
             if (wardrobeResult && wardrobeResult.success) {
                 wardrobeItems = wardrobeResult.items;
             }
 
-            // UpdateBalance
+            // 更新余额
             balanceEl.textContent = catState.money;
 
-            // DefaultShowFoodCategory
+            // 默认显示食物分类
             renderShopCategory('food');
 
-            // SettingsDefaultActivateButtons
+            // 设置默认激活的按钮
             document.querySelectorAll('.shop-category-btn').forEach(btn => {
                 btn.classList.remove('active');
-                if (btn.textContent.includes('Food')) {
+                if (btn.textContent.includes('食物')) {
                     btn.classList.add('active');
                 }
             });
@@ -4006,23 +4146,23 @@
             modal.classList.add('show');
         }
 
-        // ShowShopCategory（ByButtonsClickCall）
+        // 显示商店分类（由按钮点击调用）
         function showShopCategory(category) {
             currentShopCategory = category;
 
-            // UpdateButtonsStatus
+            // 更新按钮状态
             document.querySelectorAll('.shop-category-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
 
-            // Based onCategorySettingsActivateStatus
+            // 根据分类设置激活状态
             const categoryMap = {
-                'food': 'Food',
-                'drink': 'Drink',
-                'toy': 'Toys',
-                'clothes': 'Clothes',
-                'furniture': 'Furniture',
-                'investment': 'Investment'
+                'food': '食物',
+                'drink': '饮料',
+                'toy': '玩具',
+                'clothes': '衣服',
+                'furniture': '家具',
+                'investment': '投资'
             };
             document.querySelectorAll('.shop-category-btn').forEach(btn => {
                 if (btn.textContent.includes(categoryMap[category])) {
@@ -4033,20 +4173,20 @@
             renderShopCategory(category);
         }
 
-        // RenderShopCategoryContent
+        // 渲染商店分类内容
         function renderShopCategory(category) {
             const itemsContainer = document.getElementById('shopItems');
 
-            // FilterProduct
+            // 过滤商品
             const items = shopItems.filter(item => item.category === category);
 
             let html = '';
 
             if (items.length === 0) {
-                html = '<div style="color: rgba(255,255,255,0.6); text-align: center; padding: 40px;">NoProduct</div>';
+                html = '<div style="color: rgba(255,255,255,0.6); text-align: center; padding: 40px;">暂无商品</div>';
             } else {
                 html = items.map(item => {
-                    // CheckYesNoOwned（ClothesClass、FurnitureClassOrInvestmentClass）
+                    // 检查是否已拥有（衣服类、家具类或投资类）
                     let isOwned = false;
                     if (category === 'clothes') {
                         isOwned = wardrobeItems.some(w => w.id === item.id);
@@ -4065,9 +4205,9 @@
                             </div>
                             <div class="shop-item-price">💰${item.price.toLocaleString()}</div>
                             ${isOwned ?
-                                '<button class="shop-item-buy" disabled>✅ Owned</button>' :
+                                '<button class="shop-item-buy" disabled>✅ 已拥有</button>' :
                                 `<button class="shop-item-buy" onclick="buyItem('${item.id}', ${item.price}, '${category}')" ${catState.money < item.price ? 'disabled' : ''}>
-                                    Buy
+                                    购买
                                 </button>`
                             }
                         </div>
@@ -4078,19 +4218,19 @@
             itemsContainer.innerHTML = html;
         }
 
-        // CloseShop
+        // 关闭商店
         function closeShop() {
             document.getElementById('shopModal').classList.remove('show');
         }
 
-        // BuyItem
+        // 购买物品
         async function buyItem(itemId, price, category) {
             if (catState.money < price) {
-                showMoodBubble('💸 Insufficient balance！');
+                showMoodBubble('💸 余额不足！');
                 return;
             }
 
-            // ClothesClassUseSpecial interface
+            // 衣服类使用特殊接口
             if (category === 'clothes') {
                 const result = await apiRequest('buy_clothes', { itemId });
                 if (result && result.success) {
@@ -4098,19 +4238,19 @@
                     wardrobeItems = result.wardrobe;
                     document.getElementById('moneyValue').textContent = catState.money;
                     document.getElementById('shopBalance').textContent = catState.money;
-                    showMoodBubble('✅ BuySuccess！AlreadyAddToWardrobe');
+                    showMoodBubble('✅ 购买成功！已添加到衣柜');
                     playMeow('happy');
-                    // RefreshCurrentCategoryShow（UserenderShopCategoryAvoidResetButtonsStatus）
+                    // 刷新当前分类显示（使用renderShopCategory避免重置按钮状态）
                     renderShopCategory('clothes');
                 } else if (result?.error === 'already_owned') {
-                    showMoodBubble('✅ OwnedThisClothes');
+                    showMoodBubble('✅ 已拥有该衣服');
                 } else {
-                    showMoodBubble('❌ ' + (result?.message || 'BuyFailed'));
+                    showMoodBubble('❌ ' + (result?.message || '购买失败'));
                 }
                 return;
             }
 
-            // FurnitureClassUseSpecial interface
+            // 家具类使用特殊接口
             if (category === 'furniture') {
                 const result = await apiRequest('buy_furniture', { itemId });
                 if (result && result.success) {
@@ -4118,21 +4258,21 @@
                     ownedFurniture = result.furniture;
                     document.getElementById('moneyValue').textContent = catState.money;
                     document.getElementById('shopBalance').textContent = catState.money;
-                    showMoodBubble('✅ BuySuccess！FurnitureAlreadySendToHomeing');
+                    showMoodBubble('✅ 购买成功！家具已送到家中');
                     playMeow('happy');
-                    // AddFurnitureToRoom
+                    // 添加家具到房间
                     addFurnitureToRoom(itemId);
-                    // RefreshCurrentCategoryShow
+                    // 刷新当前分类显示
                     renderShopCategory('furniture');
                 } else if (result?.error === 'already_owned') {
-                    showMoodBubble('✅ OwnedThisFurniture');
+                    showMoodBubble('✅ 已拥有该家具');
                 } else {
-                    showMoodBubble('❌ ' + (result?.message || 'BuyFailed'));
+                    showMoodBubble('❌ ' + (result?.message || '购买失败'));
                 }
                 return;
             }
 
-            // InvestmentClassUseSpecial interface
+            // 投资类使用特殊接口
             if (category === 'investment') {
                 const result = await apiRequest('buy_investment', { itemId });
                 if (result && result.success) {
@@ -4140,47 +4280,47 @@
                     ownedInvestments = result.investments;
                     document.getElementById('moneyValue').textContent = catState.money;
                     document.getElementById('shopBalance').textContent = catState.money;
-                    showMoodBubble('✅ BuySuccess！StartGenerate income');
+                    showMoodBubble('✅ 购买成功！开始产生收益');
                     playMeow('happy');
-                    // RefreshCurrentCategoryShow
+                    // 刷新当前分类显示
                     renderShopCategory('investment');
                 } else if (result?.error === 'already_owned') {
-                    showMoodBubble('✅ OwnedThisInvestment');
+                    showMoodBubble('✅ 已拥有该投资');
                 } else {
-                    showMoodBubble('❌ ' + (result?.message || 'BuyFailed'));
+                    showMoodBubble('❌ ' + (result?.message || '购买失败'));
                 }
                 return;
             }
 
-            // NormalItem
+            // 普通物品
             const result = await apiRequest('buy', { itemId });
             if (result && result.success) {
                 catState.money = result.balance;
                 inventory = result.inventory;
                 document.getElementById('moneyValue').textContent = catState.money;
                 document.getElementById('shopBalance').textContent = catState.money;
-                showMoodBubble('✅ BuySuccess！');
+                showMoodBubble('✅ 购买成功！');
                 playMeow('happy');
 
-                // RefreshCurrentCategoryShow（NotResetToFood）
+                // 刷新当前分类显示（不重置到食物）
                 renderShopCategory(currentShopCategory);
             } else {
-                showMoodBubble('❌ ' + (result?.error || 'BuyFailed'));
+                showMoodBubble('❌ ' + (result?.error || '购买失败'));
             }
         }
 
-        // OpenInventory
+        // 打开仓库
         async function openInventory() {
             const modal = document.getElementById('inventoryModal');
             const itemsContainer = document.getElementById('inventoryItems');
 
-            // GetInventoryItem
+            // 获取仓库物品
             const result = await apiRequest('inventory');
             if (!result) return;
 
             inventory = result.items;
 
-            // ItemIconMap
+            // 物品图标映射
             const itemIcons = {
                 'cat_stick': '🪄',
                 'cat_food': '🍲',
@@ -4205,7 +4345,7 @@
                 'vr_headset': '🥽'
             };
 
-            // CategoryShow
+            // 分类显示
             const foods = inventory.filter(item =>
                 ['cat_food', 'fish_dry', 'chicken', 'sushi', 'steak', 'lobster', 'golden_food'].includes(item.id) && item.quantity > 0
             );
@@ -4218,9 +4358,9 @@
 
             let html = '';
 
-            // FoodArea
+            // 食物区域
             if (foods.length > 0) {
-                html += '<div style="color: #FFD700; font-size: 16px; margin-bottom: 10px; margin-top: 15px;">🍽️ Food</div>';
+                html += '<div style="color: #FFD700; font-size: 16px; margin-bottom: 10px; margin-top: 15px;">🍽️ 食物</div>';
                 html += foods.map(item => `
                     <div class="inventory-item">
                         <div class="inventory-item-icon">${itemIcons[item.id] || '🎁'}</div>
@@ -4233,9 +4373,9 @@
                 `).join('');
             }
 
-            // DrinkArea
+            // 饮料区域
             if (drinks.length > 0) {
-                html += '<div style="color: #FFD700; font-size: 16px; margin-bottom: 10px; margin-top: 15px;">🥤 Drink</div>';
+                html += '<div style="color: #FFD700; font-size: 16px; margin-bottom: 10px; margin-top: 15px;">🥤 饮料</div>';
                 html += drinks.map(item => `
                     <div class="inventory-item">
                         <div class="inventory-item-icon">${itemIcons[item.id] || '🎁'}</div>
@@ -4248,9 +4388,9 @@
                 `).join('');
             }
 
-            // ToysArea
+            // 玩具区域
             if (toys.length > 0) {
-                html += '<div style="color: #FFD700; font-size: 16px; margin-bottom: 10px; margin-top: 15px;">🎮 Toys</div>';
+                html += '<div style="color: #FFD700; font-size: 16px; margin-bottom: 10px; margin-top: 15px;">🎮 玩具</div>';
                 html += toys.map(item => `
                     <div class="inventory-item">
                         <div class="inventory-item-icon">${itemIcons[item.id] || '🎁'}</div>
@@ -4264,64 +4404,142 @@
             }
 
             if (html === '') {
-                html = '<div class="empty-inventory">InventoryYesEmpty，FastGoShopBuy！</div>';
+                html = '<div class="empty-inventory">仓库是空的，快去商店购买吧！</div>';
             }
 
             itemsContainer.innerHTML = html;
             modal.classList.add('show');
         }
 
-        // CloseInventory
+        // 关闭仓库
         function closeInventory() {
             document.getElementById('inventoryModal').classList.remove('show');
         }
 
-        // ClickModalExternalClose
+        // 打开跳蚤市场
+        async function openFleaMarket() {
+            const modal = document.getElementById('fleaMarketModal');
+            const balanceEl = document.getElementById('fleaMarketBalance');
+            const result = await apiRequest('flea_market');
+            if (!result) return;
+
+            fleaMarketItems = result.items || [];
+            balanceEl.textContent = result.balance ?? catState.money;
+            renderFleaMarketItems();
+            modal.classList.add('show');
+        }
+
+        function renderFleaMarketItems() {
+            const itemsContainer = document.getElementById('fleaMarketItems');
+            if (!itemsContainer) return;
+
+            if (!fleaMarketItems.length) {
+                itemsContainer.innerHTML = '<div class="empty-inventory">没有可卖出的仓库道具</div>';
+                return;
+            }
+
+            const categoryNames = {
+                food: '食物',
+                drink: '饮料',
+                toy: '玩具'
+            };
+
+            itemsContainer.innerHTML = fleaMarketItems.map(item => `
+                <div class="flea-market-item">
+                    <div class="flea-market-item-icon">${item.icon || '🎁'}</div>
+                    <div class="flea-market-item-info">
+                        <div class="flea-market-item-name">${item.name}</div>
+                        <div class="flea-market-item-desc">
+                            ${categoryNames[item.category] || '道具'} · 库存 ×${item.quantity}
+                        </div>
+                        <div class="flea-market-item-desc">${item.description || ''}</div>
+                    </div>
+                    <div class="flea-market-price">
+                        原价 ${Number(item.originalPrice).toLocaleString()}<br>
+                        卖出 ${Number(item.sellPrice).toLocaleString()}
+                    </div>
+                    <button class="flea-market-sell" onclick="sellInventoryItem('${item.id}')">卖出</button>
+                </div>
+            `).join('');
+        }
+
+        async function sellInventoryItem(itemId) {
+            const result = await apiRequest('sell_item', { itemId, quantity: 1 });
+            if (result && result.success) {
+                fleaMarketItems = result.items || [];
+                inventory = result.inventory || inventory;
+                catState.money = result.balance;
+                if (result.state) {
+                    catState = result.state;
+                    catState.money = result.balance;
+                    updateDisplay(catState);
+                } else {
+                    document.getElementById('moneyValue').textContent = catState.money;
+                }
+                document.getElementById('fleaMarketBalance').textContent = result.balance;
+                renderFleaMarketItems();
+                showMoodBubble(`💰 卖出成功 +${result.income}元`);
+            } else {
+                showMoodBubble('❌ ' + (result?.message || '卖出失败'));
+            }
+        }
+
+        function closeFleaMarket() {
+            document.getElementById('fleaMarketModal').classList.remove('show');
+        }
+
+        // 点击弹窗外部关闭
         document.getElementById('shopModal').addEventListener('click', (e) => {
             if (e.target.id === 'shopModal') closeShop();
         });
         document.getElementById('inventoryModal').addEventListener('click', (e) => {
             if (e.target.id === 'inventoryModal') closeInventory();
         });
+        document.getElementById('fleaMarketModal').addEventListener('click', (e) => {
+            if (e.target.id === 'fleaMarketModal') closeFleaMarket();
+        });
         document.getElementById('wardrobeModal').addEventListener('click', (e) => {
             if (e.target.id === 'wardrobeModal') closeWardrobe();
         });
 
-        // Start
-        initGame();
-        initInventory(); // InitialInventory
-        initSkills(); // InitialSkills
-        initHealth(); // InitialHealthStatus
+        // 启动
+        initGame().then(function() {
+            // initGame 完成后初始化新功能
+            initFeatures();
+        });
+        initInventory(); // 初始化仓库
+        initSkills(); // 初始化技能
+        initHealth(); // 初始化健康状态
 
-        // Random Meow（Every30-120sRandom call once）
+        // 随机喵喵叫（每30-120秒随机叫一次）
         function scheduleRandomMeow() {
-            const delay = 30000 + Math.random() * 90000; // 30-120s
+            const delay = 30000 + Math.random() * 90000; // 30-120秒
             setTimeout(() => {
-                // Only whenNormalStatusOnly call when
+                // 只有在正常状态下才会叫
                 if (!isBusy && !catState.isSleeping && !catState.isWorking && !catState.isBathing) {
-                    // Based onStatusSelectNotTogetherSound
+                    // 根据状态选择不同的叫声
                     if (catState.hunger < 30) {
-                        playMeow('hungry'); // Hungry
+                        playMeow('hungry'); // 饿了
                     } else if (catState.thirst < 30) {
-                        playMeow('hungry'); // Thirsty
+                        playMeow('hungry'); // 渴了
                     } else if (catState.cleanliness < 30) {
-                        playMeow('angry'); // DirtyNotHighHappy
+                        playMeow('angry'); // 脏了不高兴
                     } else if (catState.happy > 70) {
-                        playMeow('happy'); // Happy
+                        playMeow('happy'); // 开心
                     } else {
-                        randomMeow(); // Random
+                        randomMeow(); // 随机
                     }
                 }
-                scheduleRandomMeow(); // Arrange next
+                scheduleRandomMeow(); // 安排下一次
             }, delay);
         }
 
-        // StartRandom Meow
+        // 启动随机喵喵叫
         scheduleRandomMeow();
 
-        // FurnitureRelated functionCount
+        // 家具相关函数
 
-        // AddFurnitureToRoom
+        // 添加家具到房间
         function addFurnitureToRoom(itemId) {
             const container = document.getElementById('furnitureContainer');
             if (!container) return;
@@ -4337,7 +4555,7 @@
             const furniture = furnitureMap[itemId];
             if (!furniture) return;
 
-            // CheckYesNoAlreadySaveIn
+            // 检查是否已存在
             if (document.getElementById('furniture-' + itemId)) return;
 
             const el = document.createElement('div');
@@ -4350,7 +4568,7 @@
             container.appendChild(el);
         }
 
-        // InitialFurnitureShow
+        // 初始化家具显示
         async function initFurniture() {
             const result = await apiRequest('furniture');
             if (result && result.success) {
@@ -4359,7 +4577,7 @@
             }
         }
 
-        // InitialInvestmentCountData
+        // 初始化投资数据
         async function initInvestments() {
             const result = await apiRequest('investments');
             if (result && result.success) {
@@ -4367,12 +4585,12 @@
             }
         }
 
-        // OpenInvestmentModal
+        // 打开投资弹窗
         async function openInvest() {
             const modal = document.getElementById('investModal');
             const listContainer = document.getElementById('investList');
 
-            // RefreshInvestmentCountData
+            // 刷新投资数据
             const result = await apiRequest('investments');
             if (result && result.success) {
                 ownedInvestments = result.investments;
@@ -4385,22 +4603,22 @@
             };
 
             const investRates = {
-                'game_company': '1Yuan/5s',
-                'data_company': '10Yuan/5s',
-                'ai_company': '100Yuan/5s'
+                'game_company': '1元/5秒',
+                'data_company': '10元/5秒',
+                'ai_company': '100元/5秒'
             };
 
             if (ownedInvestments.length === 0) {
-                listContainer.innerHTML = '<div style="color: rgba(255,255,255,0.8); text-align: center; padding: 40px;">NoInvestmentItem，FastGoShopBuy！</div>';
+                listContainer.innerHTML = '<div style="color: rgba(255,255,255,0.8); text-align: center; padding: 40px;">暂无投资项目，快去商店购买吧！</div>';
             } else {
                 listContainer.innerHTML = ownedInvestments.map(inv => `
                     <div class="inventory-item">
                         <div class="inventory-item-icon">${investIcons[inv.id] || '📈'}</div>
                         <div class="inventory-item-info">
                             <div class="inventory-item-name">${inv.name}</div>
-                            <div class="inventory-item-desc">Income：${investRates[inv.id] || 'Unknown'}</div>
+                            <div class="inventory-item-desc">收益：${investRates[inv.id] || '未知'}</div>
                         </div>
-                        <div style="color: #FFD700; font-size: 12px;">✅ Running</div>
+                        <div style="color: #FFD700; font-size: 12px;">✅ 运行中</div>
                     </div>
                 `).join('');
             }
@@ -4408,35 +4626,39 @@
             modal.classList.add('show');
         }
 
-        // CloseInvestmentModal
+        // 关闭投资弹窗
         function closeInvest() {
             document.getElementById('investModal').classList.remove('show');
         }
 
-        // UseSofa
+        // 使用沙发
         async function useSofa() {
             if (isBusy || catState.isSleeping || catState.isWorking || catState.isBathing) return;
+            if (typeof currentRoom !== 'undefined' && currentRoom !== 'bedroom') {
+                showMoodBubble('🛏️ 要去卧室休息');
+                return;
+            }
 
             isBusy = true;
-            showMoodBubble('🛋️ Lying onSofaTopRest...');
+            showMoodBubble('🛋️ 躺在沙发上休息...');
 
-            // MoveToSofa
+            // 移动到沙发
             catContainer.style.left = '58%';
             catContainer.style.top = '70%';
             catContainer.className = 'cat-container walking';
 
             await new Promise(resolve => setTimeout(resolve, 1000));
 
-            // Lying onSofaTop
+            // 躺在沙发上
             catContainer.className = 'cat-container sleeping';
 
-            // 5sAfterRecover
+            // 5秒后恢复
             setTimeout(async () => {
                 const result = await apiRequest('use_sofa');
                 if (result && result.success) {
                     catState = result.state;
                     updateDisplay(result.state);
-                    showMoodBubble('💤 RestOK！SleepVal100%');
+                    showMoodBubble('💤 休息好了！睡眠值100%');
                     playMeow('happy');
                 }
                 catContainer.className = 'cat-container idle1';
@@ -4444,7 +4666,7 @@
             }, 5000);
         }
 
-        // SwitchTV
+        // 切换电视
         function toggleTV() {
             const tvScreen = document.getElementById('tvScreen');
             if (!tvScreen) return;
@@ -4452,37 +4674,37 @@
             tvPlaying = !tvPlaying;
             if (tvPlaying) {
                 tvScreen.classList.add('show');
-                showMoodBubble('📺 OpenTVWatch TV');
+                showMoodBubble('📺 打开电视看节目');
             } else {
                 tvScreen.classList.remove('show');
-                showMoodBubble('📺 CloseTV');
+                showMoodBubble('📺 关闭电视');
             }
         }
 
-        // UseComputer
+        // 使用电脑
         async function useComputer() {
             if (isBusy || catState.isSleeping || catState.isWorking || catState.isBathing) return;
 
             isBusy = true;
-            showMoodBubble('💻 StartPlayGame...');
+            showMoodBubble('💻 开始玩游戏...');
 
-            // MoveToComputer
+            // 移动到电脑
             catContainer.style.left = '18%';
             catContainer.style.top = '60%';
             catContainer.className = 'cat-container walking';
 
             await new Promise(resolve => setTimeout(resolve, 1000));
 
-            // PlayComputerAnimation
+            // 玩电脑动画
             catContainer.className = 'cat-container playing';
 
-            // 5sAfterRecover
+            // 5秒后恢复
             setTimeout(async () => {
                 const result = await apiRequest('use_computer');
                 if (result && result.success) {
                     catState = result.state;
                     updateDisplay(result.state);
-                    showMoodBubble('🎮 PlayCanOKHappy！HappinessVal100%');
+                    showMoodBubble('🎮 玩得好开心！快乐值100%');
                     playMeow('happy');
                 }
                 catContainer.className = 'cat-container idle1';
@@ -4490,42 +4712,42 @@
             }, 5000);
         }
 
-        // UseMystery device
+        // 使用神秘设备
         async function useMysteryDevice() {
             if (isBusy || catState.isSleeping || catState.isWorking || catState.isBathing) return;
 
             isBusy = true;
-            showMoodBubble('🔮 ActivateMystery device...');
+            showMoodBubble('🔮 激活神秘设备...');
 
-            // ShowEffect
+            // 显示光效
             const light = document.getElementById('mysteryLight');
             if (light) {
                 light.classList.add('show');
                 setTimeout(() => light.classList.remove('show'), 1000);
             }
 
-            // PlayEffectsSound
+            // 播放特效声音
             playMysterySound();
 
-            // CallAPI
+            // 调用API
             const result = await apiRequest('use_mystery_device');
             if (result && result.success) {
                 catState = result.state;
                 updateDisplay(result.state);
-                showMoodBubble('✨ AllHasCountValRecoverFullFull！');
+                showMoodBubble('✨ 所有数值恢复全满！');
                 playMeow('happy');
             }
 
             isBusy = false;
         }
 
-        // PlayMystery deviceSound effect
+        // 播放神秘设备音效
         function playMysterySound() {
             if (audioContext.state === 'suspended') {
                 audioContext.resume();
             }
 
-            // Mystery sound
+            // 神秘音效
             const oscillator = audioContext.createOscillator();
             const gainNode = audioContext.createGain();
             oscillator.connect(gainNode);
@@ -4542,11 +4764,50 @@
             oscillator.stop(audioContext.currentTime + 1);
         }
 
-        // InitialFurniture
+        // 初始化家具
         initFurniture();
 
-        // InitialInvestment
+        // 初始化投资
         initInvestments();
     </script>
+
+    <!-- 成就弹窗 -->
+    <div class="achievement-modal" id="achievementModal">
+        <div class="achievement-content">
+            <div class="achievement-header">
+                <div class="achievement-title">🏆 成就</div>
+                <button class="achievement-close" onclick="closeAchievementModal()">✕</button>
+            </div>
+            <div class="achievement-stats">
+                已解锁: <span id="achievementCount">0/0</span>
+            </div>
+            <div id="achievementItems"></div>
+        </div>
+    </div>
+
+    <!-- 成就解锁通知 -->
+    <div class="achievement-notification" id="achievementNotif"></div>
+
+    <!-- 随机事件弹窗 -->
+    <div class="event-popup" id="eventPopup">
+        <div class="event-icon" id="eventIcon">🎲</div>
+        <div class="event-name" id="eventName">随机事件</div>
+        <div class="event-desc" id="eventDesc">发生了什么事...</div>
+        <div class="event-effects" id="eventEffects"></div>
+        <button class="event-close-btn" onclick="closeRandomEvent()">知道了</button>
+    </div>
+
+    <!-- 统计面板 -->
+    <div class="stats-modal" id="statsModal">
+        <div class="stats-content">
+            <div class="stats-header">
+                <div class="stats-title">📊 数据统计</div>
+                <button class="stats-close" onclick="closeStatsModal()">✕</button>
+            </div>
+            <div id="statsItems"></div>
+        </div>
+    </div>
+
+    <script src="features.js?v=20260523-1150"></script>
 </body>
 </html>
