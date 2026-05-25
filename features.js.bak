@@ -1,0 +1,558 @@
+// ==================== 房间系统 ====================
+// 每个房间定义：背景CSS类、家具、可用操作、场景装饰
+
+const ROOM_CONFIG = {
+    living_room: {
+        name: '客厅',
+        icon: '🏠',
+        description: '温馨的客厅，猫咪的主要活动区域',
+        bgClass: 'room-living',
+        // 可用操作：eat/drink/sleep/play/bathe/work/study/pet/hospital
+        actions: ['eat', 'drink', 'sleep', 'play', 'bathe', 'work', 'study', 'pet', 'hospital'],
+        // 家具定义：[emoji, CSS类名, onclick(可选), 是否可交互]
+        furniture: [
+            ['🛏️', 'furniture-living-bed', 'sleepCat()', true],
+            ['🥣', 'furniture-living-food', 'feedCat()', true],
+            ['🧶', 'furniture-living-toy', 'playWithCat()', true],
+            ['🛁', 'furniture-living-bathtub', 'batheCat()', true],
+            ['🪟', 'furniture-living-window', '', false],
+            ['🪴', 'furniture-living-plant', '', false],
+            ['📚', 'furniture-living-bookshelf', '', false],
+            ['🕐', 'furniture-living-clock', '', false],
+        ],
+        // 场景内提示
+        hint: '🏠 客厅 — 所有活动可用'
+    },
+    bedroom: {
+        name: '卧室',
+        icon: '🛏️',
+        description: '舒适的卧室，安静的休息空间',
+        bgClass: 'room-bedroom',
+        actions: ['sleep', 'study', 'pet'],
+        furniture: [
+            ['🛏️', 'furniture-bedroom-bed', 'sleepCat()', true],
+            ['🪟', 'furniture-bedroom-window', '', false],
+            ['🕐', 'furniture-bedroom-clock', '', false],
+            ['🪴', 'furniture-bedroom-plant', '', false],
+            ['💡', 'furniture-bedroom-lamp', '', false],
+            ['🧸', 'furniture-bedroom-rug', '', false],
+        ],
+        hint: '🛏️ 卧室 — 只能睡觉、学习'
+    },
+    bathroom: {
+        name: '浴室',
+        icon: '🛁',
+        description: '干净的浴室，让猫咪保持清洁',
+        bgClass: 'room-bathroom',
+        actions: ['bathe', 'drink', 'pet'],
+        furniture: [
+            ['🛁', 'furniture-bathroom-bathtub', 'batheCat()', true],
+            ['🪞', 'furniture-bathroom-mirror', '', false],
+            ['🧴', 'furniture-bathroom-shelf', '', false],
+            ['🧻', 'furniture-bathroom-towel', '', false],
+            ['🪟', 'furniture-bathroom-window', '', false],
+        ],
+        hint: '🛁 浴室 — 只能洗澡、喝水'
+    },
+    garden: {
+        name: '花园',
+        icon: '🌿',
+        description: '阳光花园，猫咪的快乐天地',
+        bgClass: 'room-garden',
+        actions: ['play', 'sleep', 'pet'],
+        furniture: [
+            ['🌸', 'furniture-garden-flowers', '', false],
+            ['🌳', 'furniture-garden-tree', '', false],
+            ['🪑', 'furniture-garden-bench', '', false],
+            ['🦋', 'furniture-garden-butterfly', '', false],
+            ['☀️', 'furniture-garden-sun', '', false],
+        ],
+        hint: '🌿 花园 — 只能玩耍、睡觉'
+    },
+    kitchen: {
+        name: '厨房',
+        icon: '🍳',
+        description: '温暖的厨房，美食的天堂',
+        bgClass: 'room-kitchen',
+        actions: ['eat', 'drink', 'pet'],
+        furniture: [
+            ['🧊', 'furniture-kitchen-fridge', 'feedCat()', true],
+            ['🍳', 'furniture-kitchen-stove', '', false],
+            ['🪵', 'furniture-kitchen-counter', 'feedCat()', true],
+            ['🌿', 'furniture-kitchen-herbs', '', false],
+            ['🪟', 'furniture-kitchen-window', '', false],
+        ],
+        hint: '🍳 厨房 — 只能喂食、喝水'
+    }
+};
+
+let currentRoom = 'living_room';
+let rooms = [];
+
+async function loadRooms() {
+    try {
+        const result = await apiRequest('rooms');
+        if (result && result.success && result.currentRoom) {
+            currentRoom = result.currentRoom;
+            renderRoomTabs();
+            renderRoomScene();
+            updateActionButtons();
+        }
+    } catch(e) {
+        console.warn('获取房间状态失败:', e);
+    }
+}
+
+function renderRoomTabs() {
+    const container = document.getElementById('roomTabs');
+    if (!container) return;
+
+    container.innerHTML = rooms.map(room => {
+        const config = ROOM_CONFIG[room.id];
+        if (!config) return '';
+        return `
+            <div class="room-tab ${room.id === currentRoom ? 'active' : ''}"
+                 data-room="${room.id}" title="${room.description}">
+                <div class="room-tab-icon">${config.icon}</div>
+                <div class="room-tab-name">${config.name}</div>
+            </div>
+        `;
+    }).join('');
+    
+    // 事件委托：点击标签切换房间
+    container.querySelectorAll('.room-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            const roomId = tab.getAttribute('data-room');
+            if (roomId) switchRoom(roomId);
+        });
+    });
+}
+
+function renderRoomScene() {
+    const config = ROOM_CONFIG[currentRoom];
+    if (!config) return;
+
+    // 1. 更新背景
+    const roomBg = document.querySelector('.room-bg');
+    if (roomBg) {
+        roomBg.className = 'room-bg ' + config.bgClass;
+    }
+
+    // 2. 隐藏原始固定家具（客厅默认的）
+    const staticFurniture = document.querySelectorAll('.furniture');
+    staticFurniture.forEach(f => f.style.display = 'none');
+
+    // 3. 渲染房间家具到动态容器
+    const furnitureContainer = document.getElementById('furnitureContainer');
+    if (furnitureContainer) {
+        furnitureContainer.innerHTML = config.furniture.map(([emoji, cssClass, onclick, interactive]) => {
+            const classes = `room-furniture ${cssClass} ${interactive ? 'interactive' : ''}`;
+            return `<div class="${classes}" ${onclick ? `onclick="${onclick}"` : ''}>${emoji}</div>`;
+        }).join('');
+
+        // 重新添加购买的家具（如果有）
+        if (typeof ownedFurniture !== 'undefined' && Array.isArray(ownedFurniture)) {
+            ownedFurniture.forEach(f => addFurnitureToRoom(f.id));
+        }
+    }
+
+    // 4. 处理睡觉场景
+    const sleepingScene = document.getElementById('sleepingScene');
+    if (sleepingScene) {
+        const canSleep = (currentRoom === 'living_room' || currentRoom === 'bedroom' || currentRoom === 'garden');
+        if (catState && catState.isSleeping && canSleep) {
+            sleepingScene.classList.add('show');
+        } else {
+            sleepingScene.classList.remove('show');
+        }
+    }
+}
+
+async function switchRoom(roomId) {
+    if (roomId === currentRoom) return;
+    if (!catState) return;
+    if (isBusy || catState.isSleeping || catState.isWorking || catState.isBathing) {
+        showMoodBubble('🐱 忙碌中，无法换房间');
+        return;
+    }
+
+    try {
+        const result = await apiRequest('switch_room', { roomId });
+        if (result && result.success) {
+            currentRoom = roomId;
+            catState = result.state;
+            updateDisplay(result.state);
+            renderRoomTabs();
+            renderRoomScene();
+            updateActionButtons();
+            updateCatMood();
+        } else if (result) {
+            showMoodBubble('❌ ' + (result.message || '切换失败'));
+        }
+    } catch(e) {
+        console.error('切换房间出错:', e);
+        showMoodBubble('❌ 切换失败，请刷新页面');
+    }
+}
+
+// 根据当前房间禁用/启用操作按钮
+// 按钮最终状态 = 忙碌禁用 OR 房间禁用
+function updateActionButtons() {
+    const config = ROOM_CONFIG[currentRoom];
+    if (!config) return;
+
+    const allowedActions = config.actions;
+    const isActionDisabled = catState.isSleeping || catState.isWorking || catState.isBathing;
+
+    const actionButtons = {
+        'eat': 'btnEat',
+        'drink': 'btnDrink',
+        'play': 'btnPlay',
+        'sleep': 'btnSleep',
+        'bathe': 'btnBathe',
+        'work': 'btnWork',
+        'study': 'btnStudy',
+        'hospital': 'btnHospital'
+    };
+
+    for (const [action, btnId] of Object.entries(actionButtons)) {
+        if (!btnId) continue;
+        const btn = document.getElementById(btnId);
+        if (!btn) continue;
+
+        const isAllowed = allowedActions.includes(action);
+        const isRoomDisabled = !isAllowed;
+
+        // 先移除房间禁用样式
+        btn.classList.remove('room-disabled');
+
+        if (isRoomDisabled) {
+            // 当前房间不允许此操作
+            btn.classList.add('room-disabled');
+            btn.disabled = true;
+            btn.title = `当前房间（${config.name}）无法执行此操作`;
+        } else {
+            // 当前房间允许此操作，根据忙碌状态决定
+            btn.title = '';
+            // 特殊处理各按钮
+            switch (action) {
+                case 'sleep':
+                    btn.disabled = catState.isWorking || catState.isBathing;
+                    break;
+                case 'bathe':
+                    btn.disabled = isActionDisabled || (catState.cleanliness >= 100);
+                    break;
+                case 'hospital':
+                    btn.disabled = isActionDisabled || !healthState.isSick;
+                    break;
+                default:
+                    btn.disabled = isActionDisabled;
+            }
+        }
+    }
+}
+
+// ==================== 成就系统 ====================
+let achievements = [];
+
+async function loadAchievements() {
+    const result = await apiRequest('achievements');
+    if (result && result.success) {
+        achievements = result.achievements;
+    }
+}
+
+function showAchievementModal() {
+    const modal = document.getElementById('achievementModal');
+    const container = document.getElementById('achievementItems');
+
+    const unlocked = achievements.filter(a => a.unlocked).length;
+    const total = achievements.length;
+
+    document.getElementById('achievementCount').textContent = `${unlocked}/${total}`;
+
+    const categories = {
+        care: { name: '🐾 养育', items: [] },
+        money: { name: '💰 经济', items: [] },
+        study: { name: '📚 学习', items: [] },
+        collect: { name: '🎒 收集', items: [] },
+        special: { name: '⭐ 特殊', items: [] }
+    };
+
+    achievements.forEach(a => {
+        if (categories[a.category]) {
+            categories[a.category].items.push(a);
+        }
+    });
+
+    let html = '';
+    for (const [key, cat] of Object.entries(categories)) {
+        if (cat.items.length === 0) continue;
+        html += `<div style="margin: 10px 0 5px; font-size: 13px; color: #FFD700; font-weight: bold;">${cat.name}</div>`;
+        cat.items.forEach(a => {
+            html += `
+                <div class="achievement-item ${a.unlocked ? 'unlocked' : 'locked'}">
+                    <div class="achievement-icon">${a.unlocked ? a.icon : '🔒'}</div>
+                    <div class="achievement-info">
+                        <div class="achievement-name">${a.unlocked ? a.name : '???'}</div>
+                        <div class="achievement-desc">${a.unlocked ? a.description : '未解锁'}</div>
+                    </div>
+                    <div class="achievement-status">${a.unlocked ? '✅' : ''}</div>
+                </div>
+            `;
+        });
+    }
+
+    container.innerHTML = html;
+    modal.classList.add('show');
+}
+
+function closeAchievementModal() {
+    document.getElementById('achievementModal').classList.remove('show');
+}
+
+function showAchievementNotification(newAchievements) {
+    if (!newAchievements || newAchievements.length === 0) return;
+
+    newAchievements.forEach((a, index) => {
+        setTimeout(() => {
+            const notif = document.getElementById('achievementNotif');
+            notif.innerHTML = `${a.icon} 成就解锁：${a.name}`;
+            notif.classList.add('show');
+            setTimeout(() => notif.classList.remove('show'), 3000);
+        }, index * 3500);
+    });
+}
+
+// ==================== 统计面板 ====================
+let statistics = {};
+
+async function loadStatistics() {
+    const result = await apiRequest('statistics');
+    if (result && result.success) {
+        statistics = result.statistics;
+        if (result.newAchievements && result.newAchievements.length > 0) {
+            showAchievementNotification(result.newAchievements);
+        }
+    }
+}
+
+function showStatsModal() {
+    const modal = document.getElementById('statsModal');
+    const container = document.getElementById('statsItems');
+
+    const s = statistics;
+    const days = s.days_played || 1;
+
+    let html = '';
+
+    html += `<div class="stats-section">
+        <div class="stats-section-title">📊 基础统计</div>
+        <div class="stats-grid">
+            <div class="stats-item">
+                <div class="stats-item-icon">📅</div>
+                <div class="stats-item-value">${days}</div>
+                <div class="stats-item-label">养猫天数</div>
+            </div>
+            <div class="stats-item">
+                <div class="stats-item-icon">💰</div>
+                <div class="stats-item-value">${(s.total_earned || 0).toLocaleString()}</div>
+                <div class="stats-item-label">累计收入</div>
+            </div>
+            <div class="stats-item">
+                <div class="stats-item-icon">💸</div>
+                <div class="stats-item-value">${(s.total_spent || 0).toLocaleString()}</div>
+                <div class="stats-item-label">累计支出</div>
+            </div>
+            <div class="stats-item">
+                <div class="stats-item-icon">🎲</div>
+                <div class="stats-item-value">${s.random_events_count || 0}</div>
+                <div class="stats-item-label">随机事件</div>
+            </div>
+        </div>
+    </div>`;
+
+    html += `<div class="stats-section">
+        <div class="stats-section-title">🐾 养育统计</div>
+        <div class="stats-grid">
+            <div class="stats-item">
+                <div class="stats-item-icon">🍖</div>
+                <div class="stats-item-value">${s.feed_count || 0}</div>
+                <div class="stats-item-label">喂食次数</div>
+            </div>
+            <div class="stats-item">
+                <div class="stats-item-icon">💧</div>
+                <div class="stats-item-value">${s.drink_count || 0}</div>
+                <div class="stats-item-label">喂水次数</div>
+            </div>
+            <div class="stats-item">
+                <div class="stats-item-icon">🎮</div>
+                <div class="stats-item-value">${s.play_count || 0}</div>
+                <div class="stats-item-label">玩耍次数</div>
+            </div>
+            <div class="stats-item">
+                <div class="stats-item-icon">🛁</div>
+                <div class="stats-item-value">${s.bathe_count || 0}</div>
+                <div class="stats-item-label">洗澡次数</div>
+            </div>
+            <div class="stats-item">
+                <div class="stats-item-icon">💤</div>
+                <div class="stats-item-value">${s.sleep_count || 0}</div>
+                <div class="stats-item-label">睡觉次数</div>
+            </div>
+            <div class="stats-item">
+                <div class="stats-item-icon">🧹</div>
+                <div class="stats-item-value">${s.clean_poop_count || 0}</div>
+                <div class="stats-item-label">铲屎次数</div>
+            </div>
+        </div>
+    </div>`;
+
+    html += `<div class="stats-section">
+        <div class="stats-section-title">📚 工作&学习</div>
+        <div class="stats-grid">
+            <div class="stats-item">
+                <div class="stats-item-icon">💼</div>
+                <div class="stats-item-value">${s.work_count || 0}</div>
+                <div class="stats-item-label">打工次数</div>
+            </div>
+            <div class="stats-item">
+                <div class="stats-item-icon">📖</div>
+                <div class="stats-item-value">${s.study_count || 0}</div>
+                <div class="stats-item-label">学习次数</div>
+            </div>
+        </div>
+    </div>`;
+
+    container.innerHTML = html;
+    modal.classList.add('show');
+}
+
+function closeStatsModal() {
+    document.getElementById('statsModal').classList.remove('show');
+}
+
+// ==================== 随机事件 ====================
+let pendingEvent = null;
+
+function showRandomEvent(event) {
+    if (!event) return;
+    pendingEvent = event;
+
+    const popup = document.getElementById('eventPopup');
+    const iconEl = document.getElementById('eventIcon');
+    const nameEl = document.getElementById('eventName');
+    const descEl = document.getElementById('eventDesc');
+    const effectsEl = document.getElementById('eventEffects');
+
+    popup.className = 'event-popup ' + event.category;
+
+    iconEl.textContent = event.icon;
+    nameEl.textContent = event.name;
+    descEl.textContent = event.description;
+
+    let effectsHtml = '';
+    if (event.effects) {
+        const labels = {
+            hunger: '饥饿', thirst: '口渴', sleep: '睡眠', happy: '快乐',
+            cleanliness: '清洁', money: '金钱'
+        };
+        for (const [key, value] of Object.entries(event.effects)) {
+            if (value === 0) continue;
+            const label = labels[key] || key;
+            const cls = value > 0 ? 'positive' : 'negative';
+            const sign = value > 0 ? '+' : '';
+            effectsHtml += `<span class="${cls}">${label} ${sign}${value}</span>`;
+        }
+    }
+    effectsEl.innerHTML = effectsHtml;
+
+    popup.classList.add('show');
+    setTimeout(() => closeRandomEvent(), 4000);
+}
+
+function closeRandomEvent() {
+    const popup = document.getElementById('eventPopup');
+    popup.classList.remove('show');
+    pendingEvent = null;
+}
+
+// ==================== 猫咪心情系统 ====================
+function getCatMood(state) {
+    if (!state) return { emoji: '😺', text: '普通', class: 'mood-neutral' };
+
+    const avg = (state.hunger + state.thirst + state.sleep + state.happy + state.cleanliness) / 5;
+
+    if (state.isSick) return { emoji: '🤒', text: '生病', class: 'mood-miserable' };
+    if (avg >= 90) return { emoji: '😻', text: '超开心', class: 'mood-happy' };
+    if (avg >= 70) return { emoji: '😺', text: '开心', class: 'mood-content' };
+    if (avg >= 50) return { emoji: '🐱', text: '一般', class: 'mood-neutral' };
+    if (avg >= 30) return { emoji: '😿', text: '不开心', class: 'mood-sad' };
+    return { emoji: '🙀', text: '很难受', class: 'mood-miserable' };
+}
+
+function updateCatMood() {
+    const mood = getCatMood(catState);
+
+    const indicator = document.getElementById('moodIndicator');
+    if (indicator) {
+        indicator.textContent = mood.emoji;
+        indicator.className = 'mood-indicator ' + mood.class;
+    }
+
+    updateCatEyes(mood);
+}
+
+function updateCatEyes(mood) {
+    const catSvg = document.getElementById('catSvg');
+    if (!catSvg) return;
+
+    const eyes = catSvg.querySelectorAll('.cat-eye');
+    if (eyes.length < 2) return;
+
+    switch (mood.class) {
+        case 'mood-happy':
+            eyes.forEach(eye => eye.setAttribute('ry', '3'));
+            break;
+        case 'mood-miserable':
+            eyes.forEach(eye => eye.setAttribute('ry', '7'));
+            break;
+        default:
+            eyes.forEach(eye => eye.setAttribute('ry', '6'));
+    }
+}
+
+// ==================== 初始化 ====================
+async function initFeatures() {
+    // 1. 立即渲染房间（同步，不依赖API）
+    rooms = Object.entries(ROOM_CONFIG).map(([id, config]) => ({
+        id: id,
+        name: config.name,
+        icon: config.icon,
+        description: config.description
+    }));
+    renderRoomTabs();
+    renderRoomScene();
+    updateActionButtons();
+    updateCatMood();
+    
+    // 2. 后台加载API数据
+    loadAchievements();
+    loadStatistics();
+    loadRooms();
+}
+
+// 点击弹窗外部关闭（直接执行，不需要等 DOMContentLoaded，因为 features.js 在 body 末尾加载时 DOM 已就绪）
+if (document.getElementById('achievementModal')) {
+    document.getElementById('achievementModal').addEventListener('click', (e) => {
+        if (e.target.id === 'achievementModal') closeAchievementModal();
+    });
+}
+if (document.getElementById('statsModal')) {
+    document.getElementById('statsModal').addEventListener('click', (e) => {
+        if (e.target.id === 'statsModal') closeStatsModal();
+    });
+}
+
+// 将 switchRoom 暴露到 window 对象
+window.__switchRoom = switchRoom;
