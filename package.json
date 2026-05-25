@@ -1,0 +1,66 @@
+{
+  "name": "digital-cat-sim",
+  "version": "1.0.0",
+  "description": "电子宠物游戏 - Digital Cat Simulator",
+  "main": "main.js",
+  "author": "jwong-art",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "build:linux": "electron-builder --linux",
+    "build:win": "electron-builder --win",
+    "build:mac": "electron-builder --mac"
+  },
+  "build": {
+    "appId": "com.jwong-art.digital-cat-sim",
+    "productName": "Digital Cat Sim",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "index.html",
+      "features.js",
+      "features.css",
+      "clothes.js",
+      "icon.png",
+      "api.php",
+      "database.php",
+      "daemon.php",
+      "data/.gitkeep",
+      "README.md"
+    ],
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "icon.png",
+      "category": "Game"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "icon.png"
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": ["x64", "arm64"]
+        }
+      ],
+      "icon": "icon.png"
+    }
+  },
+  "devDependencies": {
+    "electron": "^42.2.0"
+  }
+}
