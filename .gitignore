@@ -5,6 +5,8 @@ data/*.pid
 data/*.lock
 data/*.shm
 data/*.wal
+data/*.json
+data/*.out
 
 # OS files
 .DS_Store
